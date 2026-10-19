@@ -1,3 +1,227 @@
+import streamlit as st
+from datetime import datetime
+from html import escape
+
+# ============================================================
+# TRÀ QUÁN HOÀI NIỆM - Streamlit app
+# Chạy bằng: streamlit run app.py
+# ============================================================
+
+st.set_page_config(
+    page_title="Trà Quán Hoài Niệm",
+    page_icon="🍵",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ---------- Bảng giá (có thể chỉnh sửa tại đây) ----------
+DRINKS = {
+    "Trà sữa truyền thống": 30000,
+    "Trà sữa ô long": 35000,
+    "Trà đào cam sả": 32000,
+    "Trà tắc mật ong": 25000,
+    "Hồng trà vải": 32000,
+    "Matcha sữa": 38000,
+    "Cacao sữa": 35000,
+    "Sữa tươi trân châu đường đen": 40000,
+}
+TOPPINGS = {
+    "Không topping": 0,
+    "Trân châu đen": 5000,
+    "Trân châu trắng": 7000,
+    "Thạch cà phê": 5000,
+    "Pudding trứng": 7000,
+    "Thạch trái cây": 6000,
+    "Kem cheese": 10000,
+}
+SWEETNESS = ["0% (không đường)", "30%", "50%", "70%", "100%"]
+ICE_OPTIONS = ["Đá bình thường", "Ít đá", "Không đá"]
+
+# ---------- Phong cách giao diện ----------
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    --paper: #f6efdf;
+    --paper2: #fffaf0;
+    --ink: #38271d;
+    --brown: #68432e;
+    --red: #8f3028;
+    --gold: #c29a55;
+}
+.stApp {
+    background:
+      radial-gradient(ellipse at top left, rgba(194,154,85,.14), transparent 38%),
+      #f3ead8;
+    color: var(--ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+[data-testid="stHeader"] { background: rgba(243,234,216,.92); }
+.block-container { max-width: 1250px; padding-top: 1.5rem; padding-bottom: 3rem; }
+.hero {
+    padding: 2rem 1.5rem;
+    border: 2px solid #68432e;
+    outline: 1px solid #c29a55;
+    outline-offset: -9px;
+    border-radius: 8px;
+    text-align: center;
+    color: #fff7e8;
+    background: linear-gradient(135deg, #493023, #74452e 65%, #8f3028);
+    box-shadow: 0 8px 24px rgba(56,39,29,.14);
+    margin-bottom: 1.4rem;
+}
+.hero .eyebrow { letter-spacing: .24em; font-size: .76rem; text-transform: uppercase; color: #e7c991; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); margin: .35rem 0; color: #fff7e8; }
+.hero p { margin: 0; color: #f2dfbf; }
+.section-title {
+    font-family: 'Playfair Display', serif;
+    color: #68432e;
+    font-size: 1.55rem;
+    padding-bottom: .45rem;
+    border-bottom: 1px solid #c9ac7b;
+    margin: .3rem 0 1rem;
+}
+.menu-card {
+    background: #fffaf0;
+    border: 1px solid #dfcba8;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    margin-bottom: .75rem;
+    box-shadow: 0 3px 9px rgba(56,39,29,.045);
+}
+.menu-name { font-weight: 700; color: #493023; font-size: 1.04rem; }
+.menu-price { color: #8f3028; font-weight: 700; }
+.muted { color: #826e5b; font-size: .88rem; }
+.bill {
+    background: #fffaf0;
+    color: #38271d;
+    border: 1px solid #c9ac7b;
+    border-radius: 4px;
+    padding: 1.4rem;
+    box-shadow: 0 6px 20px rgba(56,39,29,.08);
+}
+.bill-head { text-align: center; border-bottom: 1px dashed #b69a70; padding-bottom: 1rem; margin-bottom: 1rem; }
+.bill-head h2 { font-family: 'Playfair Display', serif; margin: .2rem 0; color: #68432e; }
+.bill-row { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px dotted #dfcba8; }
+.bill-sub { color: #826e5b; font-size: .85rem; margin-top: .15rem; }
+.bill-total { display:flex; justify-content:space-between; font-weight:800; font-size:1.2rem; color:#8f3028; border-top:2px solid #68432e; padding-top:1rem; margin-top:1rem; }
+.stButton > button {
+    border-radius: 7px;
+    border: 1px solid #68432e;
+    font-weight: 700;
+}
+.stButton > button[kind="primary"] {
+    background: #8f3028;
+    color: #fffaf0;
+    border: 1px solid #8f3028;
+}
+div[data-testid="stAlert"] { border-radius: 8px; }
+footer { visibility: hidden; }
+</style>
+""", unsafe_allow_html=True)
+
+# ---------- Trạng thái ----------
+if "order_items" not in st.session_state:
+    st.session_state.order_items = []
+if "order_number" not in st.session_state:
+    st.session_state.order_number = 1
+if "payment_method" not in st.session_state:
+    st.session_state.payment_method = "Tiền mặt"
+if "customer_name" not in st.session_state:
+    st.session_state.customer_name = ""
+
+# ---------- Đầu trang ----------
+st.markdown("""
+<div class="hero">
+  <div class="eyebrow">Since 19xx · Hương vị thân quen</div>
+  <h1>🍵 Trà Quán Hoài Niệm</h1>
+  <p>Một chút vị trà · Một chút ký ức · Một ngày an yên</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ---------- Thanh bên: thông tin đơn ----------
+with st.sidebar:
+    st.markdown("## 🧾 Thông tin đơn")
+    st.caption(f"Mã đơn: HQN-{datetime.now().strftime('%y%m%d')}-{st.session_state.order_number:03d}")
+    customer = st.text_input("Tên khách hàng (không bắt buộc)", key="customer_name")
+    st.markdown("---")
+    st.markdown("### 💳 Hình thức thanh toán")
+    payment = st.radio(
+        "Chọn phương thức",
+        ["Tiền mặt", "Quét mã QR"],
+        index=0 if st.session_state.payment_method == "Tiền mặt" else 1,
+        key="payment_method",
+    )
+    st.markdown("---")
+    st.caption("Giá niêm yết bằng VNĐ. Topping được tính theo từng ly.")
+
+# ---------- Bố cục chính ----------
+left, right = st.columns([1.08, .92], gap="large")
+
+with left:
+    st.markdown('<div class="section-title">✦ Thực đơn tiệm trà</div>', unsafe_allow_html=True)
+    st.caption("Chọn số lượng, sau đó tùy chỉnh topping và khẩu vị cho từng món.")
+    with st.form("order_form", clear_on_submit=False):
+        selections = {}
+        for idx, (drink, price) in enumerate(DRINKS.items()):
+            st.markdown(
+                f'<div class="menu-card"><span class="menu-name">{escape(drink)}</span>'
+                f'<br><span class="menu-price">{price:,.0f} đ</span>'
+                f'<br><span class="muted">Pha mới theo khẩu vị của bạn</span></div>',
+                unsafe_allow_html=True,
+            )
+            c1, c2, c3 = st.columns([.8, 1.2, 1.2])
+            with c1:
+                qty = st.number_input(
+                    "Số ly", min_value=0, max_value=30, value=0, step=1,
+                    key=f"qty_{idx}", help="Để 0 nếu không gọi món này."
+                )
+            with c2:
+                topping = st.selectbox(
+                    "Topping", list(TOPPINGS.keys()), key=f"topping_{idx}"
+                )
+            with c3:
+                sweetness = st.selectbox(
+                    "Độ ngọt", SWEETNESS, index=2, key=f"sweet_{idx}"
+                )
+            ice = st.radio(
+                "Lượng đá", ICE_OPTIONS, horizontal=True,
+                key=f"ice_{idx}", label_visibility="collapsed"
+            )
+            if qty > 0:
+                selections[drink] = {
+                    "quantity": int(qty),
+                    "unit_price": price,
+                    "topping": topping,
+                    "topping_price": TOPPINGS[topping],
+                    "sweetness": sweetness,
+                    "ice": ice,
+                }
+        submitted = st.form_submit_button("🧾 Thêm món vào hóa đơn", type="primary", use_container_width=True)
+
+    if submitted:
+        if not selections:
+            st.warning("Bạn hãy chọn số lượng ít nhất một món trước nhé.")
+        else:
+            st.session_state.order_items = [
+                {"drink": drink, **details} for drink, details in selections.items()
+            ]
+            st.success("Đã cập nhật các món trong hóa đơn!")
+
+with right:
+    st.markdown('<div class="section-title">✦ Hóa đơn của bạn</div>', unsafe_allow_html=True)
+    items = st.session_state.order_items
+    if not items:
+        st.markdown("""
+        <div class="bill" style="text-align:center;padding:2.4rem 1rem">
+          <div style="font-size:2.5rem">🫖</div>
+          <h3 style="font-family:'Playfair Display',serif;color:#68432e">Chờ bạn chọn món</h3>
+          <p style="color:#826e5b">Hóa đơn sẽ xuất hiện tại đây sau khi bạn thêm món.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        subtotal = sum(
             (item["unit_price"] + item["topping_price"]) * item["quantity"]
             for item in items
         )
@@ -103,3 +327,4 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True,
 )
+
