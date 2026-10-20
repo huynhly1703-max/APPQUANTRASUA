@@ -279,8 +279,6 @@ if page == "🏠 Về Hiên Xưa":
     with c3:
         st.markdown("#### 💌 Lời nhắn")
         st.write("Mỗi món đều đi kèm một lời chúc nhỏ dành riêng cho khách.")
-    st.info("Giá và món uống trong ứng dụng là dữ liệu mẫu, bạn có thể sửa trực tiếp trong phần MENU của code.")
-
 # =========================================================
 # TRANG MENU VÀ CHỌN MÓN
 # =========================================================
