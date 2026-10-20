@@ -308,15 +308,21 @@ with st.sidebar:
     st.caption("Hương trà xưa - Vị thân quen")
     st.divider()
 
-    page = st.radio(
-        "DANH MỤC",
-        [
-            "🏮 Giới thiệu quán",
-            "📜 Thực đơn & Đặt món",
-            "🎡 Vòng quay may mắn",
-            "🧾 Hóa đơn & Thanh toán",
-        ],
-    )
+pages = [
+    "🏮 Giới thiệu quán",
+    "📜 Thực đơn & Đặt món",
+    "🎡 Vòng quay may mắn",
+    "🧾 Hóa đơn & Thanh toán",
+]
+
+if "selected_page" not in st.session_state:
+    st.session_state["selected_page"] = pages[0]
+
+page = st.radio(
+    "DANH MỤC",
+    pages,
+    key="selected_page",
+)
 
     st.divider()
     st.markdown("**Giờ mở cửa**")
