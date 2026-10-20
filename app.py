@@ -396,9 +396,9 @@ if page == "🏮 Giới thiệu quán":
         st.markdown("**Trà trái cây – Tươi mát phố xưa**")
         st.caption("Thanh mát, tươi mới, đầy sức sống.")
 
-    if st.button("📜 Khám phá thực đơn", use_container_width=True):
-        st.session_state["go_menu"] = True
-        st.rerun()
+if st.button("📜 Khám phá thực đơn", use_container_width=True):
+    st.session_state["selected_page"] = "📜 Thực đơn & Đặt món"
+    st.rerun()
 
 # =====================================================
 # 10. TRANG MENU VÀ ĐẶT MÓN
