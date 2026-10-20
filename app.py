@@ -216,8 +216,12 @@ def calculate_discount(subtotal, voucher_code):
 # SIDEBAR
 # =========================================================
 def go_to_menu():
-    # Callback được chạy trước khi Streamlit dựng lại giao diện, nên có thể cập nhật radio key an toàn.
+    # Callback chạy trước khi Streamlit dựng lại giao diện.
     st.session_state["page"] = "📜 Khám phá thực đơn"
+
+def go_to_checkout():
+    # Chuyển thẳng sang trang giỏ hàng bằng callback để tránh lỗi trạng thái widget.
+    st.session_state["page"] = "🧾 Giỏ hàng & thanh toán"
 
 with st.sidebar:
     st.markdown("## 🪷 HIÊN XƯA")
@@ -357,9 +361,11 @@ elif page == "📜 Khám phá thực đơn":
     if st.session_state.cart:
         st.write(f"Bạn đang có **{len(st.session_state.cart)} dòng món** trong giỏ.")
         st.metric("Tạm tính", vnd(get_subtotal()))
-        if st.button("🧾 Sang giỏ hàng & thanh toán", use_container_width=True):
-            st.session_state["go_checkout"] = True
-            st.rerun()
+        st.button(
+            "🧾 Sang giỏ hàng & thanh toán",
+            use_container_width=True,
+            on_click=go_to_checkout,
+        )
     else:
         st.caption("Giỏ hàng đang trống. Hãy chọn món bạn yêu thích nhé!")
 
