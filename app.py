@@ -215,6 +215,10 @@ def calculate_discount(subtotal, voucher_code):
 # =========================================================
 # SIDEBAR
 # =========================================================
+def go_to_menu():
+    # Callback được chạy trước khi Streamlit dựng lại giao diện, nên có thể cập nhật radio key an toàn.
+    st.session_state["page"] = "📜 Khám phá thực đơn"
+
 with st.sidebar:
     st.markdown("## 🪷 HIÊN XƯA")
     st.caption("Tiệm trà của những miền ký ức")
@@ -259,9 +263,7 @@ if page == "🏠 Về Hiên Xưa":
             "thêm topping và để Hiên Xưa gửi bạn một lời nhắn nhỏ."
         )
         st.markdown('<div class="note">🪷 <b>Triết lý của Hiên Xưa:</b> Giữ vị trà chân thành, trao điều tử tế, lưu lại những khoảnh khắc dịu dàng.</div>', unsafe_allow_html=True)
-        if st.button("📜 Khám phá thực đơn", use_container_width=True):
-            st.session_state["page"] = "📜 Khám phá thực đơn"
-            st.rerun()
+        st.button("📜 Khám phá thực đơn", use_container_width=True, on_click=go_to_menu)
     with right:
         st.image(
             "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1100&q=85",
@@ -279,6 +281,8 @@ if page == "🏠 Về Hiên Xưa":
     with c3:
         st.markdown("#### 💌 Lời nhắn")
         st.write("Mỗi món đều đi kèm một lời chúc nhỏ dành riêng cho khách.")
+    st.info("Giá và món uống trong ứng dụng là dữ liệu mẫu, bạn có thể sửa trực tiếp trong phần MENU của code.")
+
 # =========================================================
 # TRANG MENU VÀ CHỌN MÓN
 # =========================================================
