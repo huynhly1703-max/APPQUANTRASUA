@@ -24,6 +24,7 @@ DEFAULTS = {
     "feedback_text": "",
     "spin_result": None,
     "spin_history": [],
+    "nav_radio": "Trang chủ",
 }
 for k, v in DEFAULTS.items():
     if k not in st.session_state:
@@ -128,6 +129,7 @@ def money(n):
 
 def nav(page):
     st.session_state.page = page
+    st.session_state.nav_radio = page
 
 def subtotal():
     return sum(x["unit_price"] * x["quantity"] for x in st.session_state.cart)
@@ -153,7 +155,15 @@ with st.sidebar:
     st.markdown("<p style='text-align:center;color:#D8B66E;letter-spacing:2px'>HƯƠNG VỊ XƯA · CẢM XÚC MỚI</p>", unsafe_allow_html=True)
     st.divider()
     # Một nguồn trạng thái duy nhất cho radio; các nút gọi nav() rồi rerun.
-    st.radio("ĐIỀU HƯỚNG", PAGES, key="page", label_visibility="collapsed")
+    st.radio(
+    "ĐIỀU HƯỚNG",
+    PAGES,
+    key="nav_radio",
+    label_visibility="collapsed",
+    on_change=lambda: st.session_state.update(
+        page=st.session_state.nav_radio
+    )
+)
     st.divider()
     st.markdown("### 🛒 Giỏ hàng")
     st.metric("Số lượng ly", sum(x["quantity"] for x in st.session_state.cart))
