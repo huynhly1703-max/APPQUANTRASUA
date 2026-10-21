@@ -399,4 +399,3 @@ elif st.session_state.current_page == "Vòng quay may mắn":
                 outcomes = [
                     ("Voucher SAIGON20 - Giảm 20%", "SAIGON20"),
                     ("Voucher HOAINIEM10 - Giảm 10%", "HOAINIEM10"),
-                    ("
