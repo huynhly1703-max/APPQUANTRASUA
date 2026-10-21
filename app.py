@@ -1,8 +1,6 @@
 import streamlit as st
 import random
 import qrcode
-import re
-from pathlib import Path
 from io import BytesIO
 from datetime import datetime
 
@@ -98,21 +96,7 @@ def hero(kicker,title,subtitle):
 def section(title, subtitle=None):
     st.markdown(f'<div class="section-heading"><h2>{title}</h2></div>',unsafe_allow_html=True)
     if subtitle: st.caption(subtitle)
-def image_slug(name):
-    import unicodedata
-    text = unicodedata.normalize("NFD", name)
-    text = "".join(ch for ch in text if unicodedata.category(ch) != "Mn")
-    text = text.replace("đ", "d").replace("Đ", "D")
-    return re.sub(r"[^a-zA-Z0-9]+", "-", text).strip("-").lower()
-
-IMAGE_DIR = Path(__file__).resolve().parent / "images"
-IMAGE_DIR.mkdir(exist_ok=True)
-
-def show_image(url,caption):
-    slug = image_slug(caption)
-    local_images = [p for p in IMAGE_DIR.glob(f"{slug}.*") if p.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}]
-    image_source = str(local_images[0]) if local_images else url
-    st.image(image_source,use_container_width=True,caption=caption)
+def show_image(url,caption): st.image(url,use_container_width=True,caption=caption)
 
 # Sidebar uses buttons instead of a radio widget so navigation buttons never conflict with widget state.
 with st.sidebar:
@@ -129,20 +113,6 @@ with st.sidebar:
     st.write(f"{len(st.session_state.cart)} dòng món")
     st.markdown(f"<div style='background:#315847;border:1px solid #E4B548;padding:10px;border-radius:8px'>Tạm tính<br><span style='font-size:22px;font-weight:800;color:#E4B548'>{money(subtotal())}</span></div>",unsafe_allow_html=True)
     if st.button("Mở giỏ hàng →",key="sidebar_cart",use_container_width=True): navigate("Giỏ hàng & thanh toán")
-    with st.expander("🖼️ Thay ảnh món uống"):
-        st.caption("Chọn món rồi tải ảnh từ máy tính. Ảnh sẽ được lưu trong thư mục images cạnh file app này.")
-        all_products = [product for group in MENU.values() for product in group]
-        chosen_name = st.selectbox("Chọn món cần đổi ảnh", [p["name"] for p in all_products], key="upload_image_product")
-        uploaded_image = st.file_uploader("Tải ảnh mới lên", type=["jpg", "jpeg", "png", "webp"], key="upload_drink_image")
-        if uploaded_image is not None and st.button("Lưu ảnh cho món này", key="save_drink_image", use_container_width=True):
-            suffix = Path(uploaded_image.name).suffix.lower()
-            slug = image_slug(chosen_name)
-            for old_image in IMAGE_DIR.glob(f"{slug}.*"):
-                if old_image.is_file(): old_image.unlink()
-            destination = IMAGE_DIR / f"{slug}{suffix}"
-            destination.write_bytes(uploaded_image.getvalue())
-            st.success(f"Đã lưu ảnh cho {chosen_name}!")
-            st.rerun()
     st.markdown("<div style='padding-top:18px;font-size:11px;line-height:1.8;color:#DCCBA9'>HƯƠNG XƯA · VỊ CŨ<br>Chậm một nhịp, thương một đời.</div>",unsafe_allow_html=True)
 
 page=st.session_state.page
@@ -362,6 +332,4 @@ elif page=="Về chúng tôi":
 
 st.markdown("---")
 st.markdown("<div class='footer'>❖ TRÀ QUÁN HOÀI NIỆM ❖<br>HƯƠNG XƯA · VỊ CŨ · CẢM ƠN BẠN ĐÃ GHÉ THĂM</div>",unsafe_allow_html=True)
-
-
 
