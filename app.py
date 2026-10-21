@@ -1,907 +1,294 @@
-
 import streamlit as st
 import random
 import qrcode
 from io import BytesIO
 from datetime import datetime
 
-# =========================================================
-# 1. CẤU HÌNH TRANG
-# =========================================================
-st.set_page_config(
-    page_title="Trà Quán Hoài Niệm",
-    page_icon="🍵",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="Trà Quán Hoài Niệm", page_icon="🍵", layout="wide", initial_sidebar_state="expanded")
 
-# =========================================================
-# 2. BẢNG MÀU VÀ GIAO DIỆN
-# =========================================================
+# Bảng màu Đông Dương: xanh rêu, vàng nghệ, đỏ gạch, kem giấy
+MOSS = "#203F32"
+MOSS_LIGHT = "#315847"
+TURMERIC = "#E4B548"
+BRICK = "#B74735"
+PAPER = "#F7EEDB"
+PAPER_DARK = "#E8D8B9"
+INK = "#2C3026"
+MUTED = "#766B58"
+WHITE = "#FFF9ED"
+
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
-
-.stApp {
-    background: #f6f0e5;
-    color: #453a2d;
-    font-family: 'Be Vietnam Pro', sans-serif;
-}
-[data-testid="stSidebar"] {
-    background: #e8ddc9;
-    border-right: 1px solid #c9b89b;
-}
-h1, h2, h3 {
-    font-family: 'Playfair Display', serif !important;
-    color: #4d3b29 !important;
-}
-p, label, span {
-    color: #514536;
-}
-.hero {
-    padding: 36px 30px;
-    border-radius: 14px;
-    background: linear-gradient(120deg, #4d3b29, #796344);
-    color: #fff8e9;
-    margin-bottom: 22px;
-}
-.hero h1, .hero h2, .hero p {
-    color: #fff8e9 !important;
-}
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 8px;
-}
-.subtitle {
-    color: #e8d9bc !important;
-    font-size: 15px;
-}
-.section-label {
-    color: #8a6c43;
-    letter-spacing: 3px;
-    font-size: 12px;
-    font-weight: 700;
-}
-.menu-card {
-    padding: 15px;
-    background: #fffaf1;
-    border: 1px solid #e1d2ba;
-    border-radius: 12px;
-    margin-bottom: 12px;
-}
-.price {
-    color: #7a4e25;
-    font-size: 20px;
-    font-weight: 700;
-}
-.note {
-    padding: 12px 16px;
-    background: #ece4d2;
-    border-left: 4px solid #8c754c;
-    border-radius: 5px;
-    margin: 10px 0;
-}
-.bill {
-    padding: 22px;
-    background: #fffaf1;
-    border: 1px dashed #9c835e;
-    border-radius: 10px;
-}
-.small-muted {
-    color: #887b67;
-    font-size: 12px;
-}
-div.stButton > button {
-    background: #5a4934;
-    color: #fff9eb;
-    border: 1px solid #5a4934;
-    border-radius: 8px;
-    min-height: 42px;
-}
-div.stButton > button:hover {
-    background: #826747;
-    color: white;
-    border-color: #826747;
-}
-div[data-testid="stFormSubmitButton"] button {
-    background: #5a4934;
-    color: white;
-}
-hr {
-    border-color: #d9cbb4;
-}
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap');
+:root{--moss:#203F32;--moss-light:#315847;--turmeric:#E4B548;--brick:#B74735;--paper:#F7EEDB;--paper-dark:#E8D8B9;--ink:#2C3026;--muted:#766B58;--white:#FFF9ED}
+.stApp{background:radial-gradient(ellipse at 4% 3%,rgba(228,181,72,.13),transparent 25%),radial-gradient(ellipse at 96% 96%,rgba(183,71,53,.08),transparent 28%),var(--paper);color:var(--ink);font-family:'Be Vietnam Pro',sans-serif}
+[data-testid="stHeader"]{background:rgba(247,238,219,.92)}
+[data-testid="stSidebar"]{background:var(--moss);border-right:4px solid var(--turmeric)}
+[data-testid="stSidebar"] *{color:var(--paper)}
+[data-testid="stSidebar"] [data-testid="stButton"] button{background:var(--moss-light);border:1px solid rgba(247,238,219,.25);text-align:left}
+[data-testid="stSidebar"] [data-testid="stButton"] button:hover{background:var(--turmeric);color:var(--moss);border-color:var(--turmeric)}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif!important;color:var(--moss)!important;letter-spacing:-.3px}
+p,label,li{color:var(--ink)} hr{border-color:#D7C5A2!important}
+[data-testid="stCaptionContainer"]{color:var(--muted)!important}
+.hero{position:relative;overflow:hidden;background:var(--moss);color:var(--paper);border:2px solid var(--turmeric);border-radius:18px;padding:34px;margin:4px 0 24px;box-shadow:0 8px 0 rgba(32,63,50,.09)}
+.hero:before{content:'❖  ✦  ❖';position:absolute;right:22px;top:12px;color:var(--turmeric);font-size:27px;letter-spacing:8px}
+.hero:after{content:'✦';position:absolute;right:30px;bottom:-55px;color:rgba(228,181,72,.15);font-size:180px;line-height:1}
+.hero h1{color:var(--paper)!important;font-size:clamp(2.1rem,5vw,3.5rem)!important;line-height:1.08;margin:8px 0 12px;position:relative;z-index:1}
+.hero p{color:#F5E5C5!important;position:relative;z-index:1;max-width:760px}.kicker{color:var(--turmeric);font-size:11px;font-weight:800;letter-spacing:4px;position:relative;z-index:1}
+.section-heading{border-left:5px solid var(--brick);padding-left:13px;margin:22px 0 12px}.section-heading h2{margin-bottom:3px}
+.paper-card{background:var(--white);border:1px solid #D8C6A5;border-radius:14px;padding:16px;box-shadow:0 4px 0 rgba(32,63,50,.06);margin-bottom:12px}
+.price-tag{display:inline-block;background:var(--turmeric);color:var(--moss);font-weight:800;font-size:18px;padding:5px 11px;border-radius:4px}
+.message-box{background:#F2E5C8;border-left:4px solid var(--brick);border-radius:5px;padding:11px 13px;color:#4C4030;margin:10px 0}
+.info-strip{background:var(--paper-dark);border:1px solid #D4BD93;border-radius:10px;padding:13px 16px}
+.bill-box{background:var(--white);border:2px dashed #A48B60;border-radius:12px;padding:20px}
+.big-total{color:var(--brick);font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:27px}
+div.stButton>button,div.stFormSubmitButton>button{background:var(--brick);color:#FFF9ED;border:1px solid var(--brick);border-radius:8px;min-height:42px;font-weight:700;transition:.15s ease-in-out}
+div.stButton>button:hover,div.stFormSubmitButton>button:hover{background:var(--turmeric);color:var(--moss);border-color:var(--turmeric);transform:translateY(-1px)}
+.stTextInput input,.stNumberInput input,.stSelectbox [data-baseweb="select"]>div{background:var(--white);border-color:#CDB994;border-radius:8px}
+div[data-testid="stExpander"]{background:rgba(255,249,237,.75);border:1px solid #D8C6A5;border-radius:10px}
+div[data-testid="stAlert"]{border-radius:10px}div[data-testid="stImage"] img{border-radius:10px}
+.footer{text-align:center;color:var(--muted);font-size:12px;letter-spacing:1px;padding:14px 0 4px}
+@media(max-width:700px){.hero{padding:25px 20px}.hero:before{font-size:18px;right:10px}}
 </style>
 """, unsafe_allow_html=True)
 
-# =========================================================
-# 3. THỰC ĐƠN
-# =========================================================
 MENU = {
     "Trà sữa": [
-        {
-            "name": "Trà Sữa Cô Ba",
-            "price": 35000,
-            "image": "https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=700&q=80",
-            "description": "Trà đen thơm dịu, sữa béo vừa, ngọt ngào như ký ức.",
-            "message": "Cô Ba gửi bạn một chút ngọt ngào của những ngày xưa cũ!"
-        },
-        {
-            "name": "Trà Sữa Gánh Hàng Rong",
-            "price": 39000,
-            "image": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=700&q=80",
-            "description": "Vị trà đậm đà, sữa thơm, lưu giữ nét thân quen của phố xưa.",
-            "message": "Mời bạn nhâm nhi một ly trà, nghe phố kể chuyện ngày xưa."
-        },
-        {
-            "name": "Trà Sữa Phố Hội",
-            "price": 42000,
-            "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80",
-            "description": "Trà sữa thơm mượt, lấy cảm hứng từ nét trầm mặc phố cổ.",
-            "message": "Chúc bạn có một chuyến dạo chơi thật an yên tại Phố Hội!"
-        },
-        {
-            "name": "Trà Sữa Mợ Hai",
-            "price": 40000,
-            "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=700&q=80",
-            "description": "Vị trà thanh, sữa dịu, nhẹ nhàng và tinh tế.",
-            "message": "Mợ Hai chúc bạn hôm nay gặp toàn điều dễ thương!"
-        }
+        {"name":"Trà Sữa Cô Ba","price":35000,"image":"https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=900&q=85","description":"Trà đen thơm dịu, sữa béo vừa, ngọt ngào như ký ức.","message":"Cô Ba gửi bạn một chút ngọt ngào của những ngày xưa cũ!"},
+        {"name":"Trà Sữa Gánh Hàng Rong","price":39000,"image":"https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=900&q=85","description":"Vị trà đậm đà, sữa thơm, gợi nhớ những con phố thân quen.","message":"Mời bạn nhâm nhi một ly trà, nghe phố kể chuyện ngày xưa."},
+        {"name":"Trà Sữa Phố Hội","price":42000,"image":"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=900&q=85","description":"Trà sữa thơm mượt, lấy cảm hứng từ nét trầm mặc phố cổ.","message":"Chúc bạn có một chuyến dạo chơi thật an yên tại Phố Hội!"},
+        {"name":"Trà Sữa Mợ Hai","price":40000,"image":"https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=85","description":"Vị trà thanh, sữa dịu, nhẹ nhàng và tinh tế.","message":"Mợ Hai chúc bạn hôm nay gặp toàn điều dễ thương!"},
     ],
     "Matcha": [
-        {
-            "name": "Matcha Ngọc Bích",
-            "price": 42000,
-            "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
-            "description": "Matcha xanh mịn, thơm dịu, hòa cùng sữa tươi.",
-            "message": "Một chút xanh bình yên, mong ngày của bạn dịu dàng hơn."
-        },
-        {
-            "name": "Matcha Sữa Cô Tư",
-            "price": 45000,
-            "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=700&q=80",
-            "description": "Matcha đậm vị, sữa béo nhẹ, hậu vị thanh.",
-            "message": "Cô Tư mời bạn một ly xanh mát, uống là thấy thương!"
-        },
-        {
-            "name": "Matcha Đêm Trăng",
-            "price": 47000,
-            "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
-            "description": "Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.",
-            "message": "Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."
-        }
-    ]
+        {"name":"Matcha Ngọc Bích","price":42000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Matcha xanh mịn, thơm dịu, hòa cùng sữa tươi.","message":"Một chút xanh bình yên, mong ngày của bạn dịu dàng hơn."},
+        {"name":"Matcha Sữa Cô Tư","price":45000,"image":"https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85","description":"Matcha đậm vị, sữa béo nhẹ, hậu vị thanh.","message":"Cô Tư mời bạn một ly xanh mát, uống là thấy thương!"},
+        {"name":"Matcha Đêm Trăng","price":47000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.","message":"Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."},
+    ],
 }
+TOPPINGS={"Không topping":0,"Trân châu đen":7000,"Trân châu trắng":8000,"Thạch củ năng":8000,"Pudding trứng":10000,"Kem cheese":12000}
+SWEETNESS=["0%","30%","50%","70%","100%"]
+ICE=["Có đá","Ít đá","Không đá"]
+VOUCHERS={"HOAINIEM10":0.10,"COBA15":0.15,"TRAXUA20":0.20}
+PAGES=["Trang chủ","Khám phá thực đơn","Giỏ hàng & thanh toán","Vòng quay may mắn","Về chúng tôi","Đơn hàng đã xác nhận"]
 
-TOPPINGS = {
-    "Không topping": 0,
-    "Trân châu đen": 7000,
-    "Trân châu trắng": 8000,
-    "Thạch củ năng": 8000,
-    "Pudding trứng": 10000,
-    "Kem cheese": 12000
-}
+# State is preserved across Streamlit reruns.
+for key, value in {"cart":[],"page":"Trang chủ","voucher":"","voucher_applied":"","spin_result":None,"used_spin":False,"order_confirmation":None}.items():
+    if key not in st.session_state: st.session_state[key]=value
 
-SWEETNESS = ["0%", "30%", "50%", "70%", "100%"]
-ICE = ["Có đá", "Ít đá", "Không đá"]
+def money(value): return f"{int(value):,}".replace(",",".")+" đ"
+def subtotal(): return sum(item["subtotal"] for item in st.session_state.cart)
+def rate(): return VOUCHERS.get(st.session_state.voucher_applied,0)
+def discount(): return int(subtotal()*rate())
+def total(): return max(0,subtotal()-discount())
+def navigate(page):
+    st.session_state.page=page
+    st.rerun()
+def add_item(product, quantity, topping, sweetness, ice):
+    unit=product["price"]+TOPPINGS[topping]
+    st.session_state.cart.append({"name":product["name"],"base_price":product["price"],"topping":topping,"topping_price":TOPPINGS[topping],"sweetness":sweetness,"ice":ice,"quantity":int(quantity),"unit_price":unit,"subtotal":unit*int(quantity),"message":product["message"]})
+def make_qr(amount):
+    # QR demo only; replace with a real bank/provider QR before accepting payments.
+    content=f"TRA QUAN HOAI NIEM - QR MINH HOA | So tien: {amount} VND | Thay bang QR ngan hang cua quan"
+    qr=qrcode.QRCode(box_size=7,border=3); qr.add_data(content); qr.make(fit=True)
+    img=qr.make_image(fill_color=MOSS,back_color=WHITE); out=BytesIO(); img.save(out,format="PNG"); out.seek(0); return out
+def hero(kicker,title,subtitle):
+    st.markdown(f'<div class="hero"><div class="kicker">{kicker}</div><h1>{title}</h1><p>{subtitle}</p></div>',unsafe_allow_html=True)
+def section(title, subtitle=None):
+    st.markdown(f'<div class="section-heading"><h2>{title}</h2></div>',unsafe_allow_html=True)
+    if subtitle: st.caption(subtitle)
+def show_image(url,caption): st.image(url,use_container_width=True,caption=caption)
 
-VOUCHERS = {
-    "HOAINIEM10": 0.10,
-    "COBA15": 0.15,
-    "TRAXUA20": 0.20
-}
-
-# =========================================================
-# 4. KHỞI TẠO TRẠNG THÁI
-# =========================================================
-if "cart" not in st.session_state:
-    st.session_state.cart = []
-
-if "page" not in st.session_state:
-    st.session_state.page = "Trang chủ"
-
-if "voucher" not in st.session_state:
-    st.session_state.voucher = ""
-
-if "voucher_applied" not in st.session_state:
-    st.session_state.voucher_applied = ""
-
-if "spin_result" not in st.session_state:
-    st.session_state.spin_result = None
-
-if "used_spin" not in st.session_state:
-    st.session_state.used_spin = False
-
-if "payment_method" not in st.session_state:
-    st.session_state.payment_method = "Tiền mặt"
-
-# =========================================================
-# 5. HÀM HỖ TRỢ
-# =========================================================
-def money(value):
-    return f"{int(value):,}".replace(",", ".") + " đ"
-
-def go_to(page):
-    st.session_state.page = page
-
-def add_to_cart(product, quantity, topping, sweetness, ice):
-    unit_price = product["price"] + TOPPINGS[topping]
-
-    st.session_state.cart.append({
-        "name": product["name"],
-        "base_price": product["price"],
-        "topping": topping,
-        "topping_price": TOPPINGS[topping],
-        "sweetness": sweetness,
-        "ice": ice,
-        "quantity": quantity,
-        "unit_price": unit_price,
-        "subtotal": unit_price * quantity,
-        "message": product["message"]
-    })
-
-def cart_subtotal():
-    return sum(item["subtotal"] for item in st.session_state.cart)
-
-def discount_rate():
-    code = st.session_state.voucher_applied
-    return VOUCHERS.get(code, 0)
-
-def discount_amount():
-    return int(cart_subtotal() * discount_rate())
-
-def grand_total():
-    return max(0, cart_subtotal() - discount_amount())
-
-def show_product_image(url, caption):
-    try:
-        st.image(url, use_container_width=True, caption=caption)
-    except Exception:
-        st.info("Chưa tải được ảnh. Vui lòng kiểm tra kết nối Internet.")
-
-def create_demo_qr(amount):
-    # QR này chỉ chứa nội dung minh họa, chưa phải QR chuyển khoản ngân hàng.
-    content = (
-        "TRA QUAN HOAI NIEM - MA THANH TOAN MINH HOA\n"
-        f"So tien: {amount} VND\n"
-        "Vui long thay bang QR ngan hang cua quan truoc khi su dung."
-    )
-    qr = qrcode.QRCode(box_size=7, border=3)
-    qr.add_data(content)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="#4d3b29", back_color="#fffaf1")
-    output = BytesIO()
-    img.save(output, format="PNG")
-    output.seek(0)
-    return output
-
-def clear_voucher():
-    st.session_state.voucher_applied = ""
-    st.session_state.voucher = ""
-
-# =========================================================
-# 6. THANH ĐIỀU HƯỚNG
-# =========================================================
+# Sidebar uses buttons instead of a radio widget so navigation buttons never conflict with widget state.
 with st.sidebar:
-    st.markdown("## 🍵 Trà Quán")
-    st.caption("HOÀI NIỆM • HƯƠNG XƯA • VỊ CŨ")
-    st.divider()
-
-    pages = [
-        "Trang chủ",
-        "Khám phá thực đơn",
-        "Giỏ hàng & thanh toán",
-        "Vòng quay may mắn",
-        "Về chúng tôi"
-    ]
-
-    current_index = (
-        pages.index(st.session_state.page)
-        if st.session_state.page in pages else 0
-    )
-
-selected_page = st.radio(
-    "MENU",
-    pages,
-    index=None,
-    key="main_navigation"
-)
-
-if selected_page is not None:
-    st.session_state.page = selected_page
-
-    st.divider()
-    st.markdown("### 🧺 Giỏ hàng")
-    st.write(f"**{len(st.session_state.cart)}** lượt chọn món")
-
-    if st.session_state.cart:
-        st.write("Tạm tính:", money(cart_subtotal()))
-
-    if st.button("🛍️ Xem giỏ hàng", use_container_width=True):
-        go_to("Giỏ hàng & thanh toán")
-        st.rerun()
-
+    st.markdown("<div style='text-align:center;padding:14px 0 8px'><div style='font-size:42px'>🍵</div><div style='font-family:Georgia,serif;font-size:25px;font-weight:700;color:#E4B548'>TRÀ QUÁN</div><div style='font-size:11px;letter-spacing:3px'>HOÀI NIỆM</div><div style='color:#E4B548;font-size:18px;margin-top:8px'>❖ ── ✦ ── ❖</div></div>",unsafe_allow_html=True)
     st.markdown("---")
-    st.caption("Một góc nhỏ lưu giữ hương vị xưa.")
-
-# =========================================================
-# 7. TRANG CHỦ
-# =========================================================
-if st.session_state.page == "Trang chủ":
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">
-            CHÀO MỪNG BẠN GHÉ THĂM
-        </div>
-        <h1>Trà Quán Hoài Niệm</h1>
-        <p class="subtitle">
-            Một chút hương xưa · Một chút vị trà · Một khoảng bình yên
-        </p>
-        <p>
-            Giữa nhịp sống vội vàng, hãy dừng chân để thưởng thức
-            một ly trà mang hương vị thân quen.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col1, col2 = st.columns([1.1, 1])
-
-    with col1:
-        st.markdown("### Nơi ký ức được pha thành vị")
-        st.write("""
-        Lấy cảm hứng từ những con phố cũ, quán nước ven đường,
-        chiếc radio xưa và những câu chuyện bên tách trà,
-        Trà Quán Hoài Niệm mong muốn đem đến trải nghiệm gần gũi
-        nhưng vẫn thật đặc biệt.
-
-        Mỗi thức uống là một câu chuyện nhỏ. Mỗi lần ghé thăm
-        là một lần bạn có thể sống chậm lại, tận hưởng khoảnh khắc
-        của riêng mình.
-        """)
-        if st.button("📜 Khám phá thực đơn", use_container_width=True):
-            go_to("Khám phá thực đơn")
+    st.caption("DANH MỤC")
+    for p in PAGES:
+        label=("➤  " if st.session_state.page==p else "　 ")+p
+        if st.button(label,key="nav_"+p,use_container_width=True):
+            st.session_state.page=p
             st.rerun()
-
-    with col2:
-        show_product_image(
-            "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=1000&q=85",
-            "Một góc trà mang phong vị hoài cổ"
-        )
-
     st.markdown("---")
-    st.markdown("### ✨ Những điều nhỏ xinh tại quán")
+    st.markdown("**🧺 Giỏ hàng của bạn**")
+    st.write(f"{len(st.session_state.cart)} dòng món")
+    st.markdown(f"<div style='background:#315847;border:1px solid #E4B548;padding:10px;border-radius:8px'>Tạm tính<br><span style='font-size:22px;font-weight:800;color:#E4B548'>{money(subtotal())}</span></div>",unsafe_allow_html=True)
+    if st.button("Mở giỏ hàng →",key="sidebar_cart",use_container_width=True): navigate("Giỏ hàng & thanh toán")
+    st.markdown("<div style='padding-top:18px;font-size:11px;line-height:1.8;color:#DCCBA9'>HƯƠNG XƯA · VỊ CŨ<br>Chậm một nhịp, thương một đời.</div>",unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown("#### 🍃")
-        st.markdown("**Hương vị thân quen**")
-        st.write("Trà sữa và matcha được đặt tên theo những câu chuyện xưa.")
-    with c2:
-        st.markdown("#### 🎁")
-        st.markdown("**Quà tặng bất ngờ**")
-        st.write("Thử vận may để nhận voucher hoặc món quà nhỏ.")
-    with c3:
-        st.markdown("#### 🧾")
-        st.markdown("**Đặt món tiện lợi**")
-        st.write("Tùy chỉnh thức uống, topping và xem hóa đơn ngay.")
+page=st.session_state.page
 
-# =========================================================
-# 8. KHÁM PHÁ THỰC ĐƠN
-# =========================================================
-elif st.session_state.page == "Khám phá thực đơn":
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">MENU • 01</div>
-        <h1>Thực đơn nhà trà</h1>
-        <p class="subtitle">
-            Chọn một hương vị, gửi gắm một tâm tình.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+if page=="Trang chủ":
+    hero("❖ CHÀO MỪNG BẠN GHÉ THĂM ❖","Trà Quán Hoài Niệm","Một chút hương xưa · Một chút vị trà · Một khoảng bình yên.")
+    left,right=st.columns([1.05,1],gap="large")
+    with left:
+        st.markdown('<div style="color:#B74735;font-weight:800;letter-spacing:3px">✦ HƯƠNG XƯA VỊ CŨ ✦</div>',unsafe_allow_html=True)
+        st.markdown("## Nơi ký ức được pha thành vị")
+        st.write("Giữa nhịp sống vội vàng, hãy dừng chân để thưởng thức một ly trà mang hương vị thân quen. Lấy cảm hứng từ những con phố cũ, quán nước ven đường và câu chuyện bên tách trà, Trà Quán Hoài Niệm mong muốn mang đến một khoảng nghỉ nhỏ giữa ngày bận rộn.")
+        st.markdown('<div class="message-box">“Có những điều xưa cũ, chỉ cần nhấp một ngụm là thấy lòng dịu lại.”</div>',unsafe_allow_html=True)
+        if st.button("📜 Khám phá thực đơn",key="home_explore",use_container_width=True): navigate("Khám phá thực đơn")
+    with right: show_image("https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=1200&q=85","Một góc trà mang phong vị hoài cổ")
+    section("DẤU ẤN CỦA QUÁN","Ba điều nhỏ tạo nên trải nghiệm riêng.")
+    a,b,c=st.columns(3)
+    for col,emoji,title,desc in [(a,"🍃","Hương vị thân quen","Trà sữa và matcha mang tên gọi gợi nhớ những câu chuyện xưa."),(b,"🎁","Quà tặng bất ngờ","Thử vận may với voucher hoặc một món quà nhỏ từ quán."),(c,"🧾","Đặt món dễ dàng","Tùy chỉnh thức uống và xem hóa đơn ngay trên ứng dụng.")]:
+        with col: st.markdown(f'<div class="paper-card"><div style="font-size:30px">{emoji}</div><h3>{title}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
 
-    category = st.radio(
-        "Chọn nhóm thức uống",
-        ["Trà sữa", "Matcha"],
-        horizontal=True,
-        key="drink_category"
-    )
-
-    st.caption("Giá tính bằng VNĐ. Topping được tính thêm vào giá món.")
-
-    products = MENU[category]
-
-    for idx, product in enumerate(products):
+elif page=="Khám phá thực đơn":
+    hero("❖ MENU NHÀ TRÀ ❖","Thực đơn nhà trà","Chọn một hương vị, gửi gắm một tâm tình.")
+    category=st.radio("Chọn nhóm thức uống",["Trà sữa","Matcha"],horizontal=True,key="drink_category")
+    st.markdown('<div class="info-strip">✦ Giá tính bằng VNĐ. Topping được tính thêm vào giá món. Mỗi thức uống đều có lời nhắn riêng dành cho bạn.</div>',unsafe_allow_html=True)
+    st.write("")
+    for idx,product in enumerate(MENU[category]):
         with st.container(border=True):
-            image_col, detail_col = st.columns([0.9, 1.3])
-
-            with image_col:
-                show_product_image(product["image"], product["name"])
-
+            image_col,detail_col=st.columns([.85,1.3],gap="large")
+            with image_col: show_image(product["image"],product["name"])
             with detail_col:
                 st.markdown(f"### {product['name']}")
-                st.markdown(
-                    f'<div class="price">{money(product["price"])}</div>',
-                    unsafe_allow_html=True
-                )
+                st.markdown(f'<span class="price-tag">{money(product["price"])}</span>',unsafe_allow_html=True)
                 st.write(product["description"])
-                st.markdown(
-                    f'<div class="note">💌 {product["message"]}</div>',
-                    unsafe_allow_html=True
-                )
-
+                st.markdown(f'<div class="message-box">💌 {product["message"]}</div>',unsafe_allow_html=True)
                 with st.form(key=f"form_{category}_{idx}"):
                     st.markdown("**Tùy chỉnh ly của bạn**")
-
-                    quantity = st.number_input(
-                        "Số lượng",
-                        min_value=1,
-                        max_value=20,
-                        value=1,
-                        step=1,
-                        key=f"qty_{category}_{idx}"
-                    )
-
-                    topping = st.selectbox(
-                        "Topping",
-                        list(TOPPINGS.keys()),
-                        key=f"top_{category}_{idx}"
-                    )
-
-                    sweetness = st.select_slider(
-                        "Độ ngọt",
-                        options=SWEETNESS,
-                        value="50%",
-                        key=f"sweet_{category}_{idx}"
-                    )
-
-                    ice = st.radio(
-                        "Lượng đá",
-                        ICE,
-                        horizontal=True,
-                        key=f"ice_{category}_{idx}"
-                    )
-
-                    unit = product["price"] + TOPPINGS[topping]
-                    st.write("Giá mỗi ly:", money(unit))
-                    st.write("Thành tiền:", money(unit * quantity))
-
-                    submitted = st.form_submit_button(
-                        "➕ Thêm vào giỏ hàng",
-                        use_container_width=True
-                    )
-
+                    qty=st.number_input("Số lượng",min_value=1,max_value=20,value=1,step=1,key=f"qty_{category}_{idx}")
+                    topping=st.selectbox("Topping",list(TOPPINGS),key=f"top_{category}_{idx}")
+                    sweet=st.select_slider("Độ ngọt",options=SWEETNESS,value="50%",key=f"sweet_{category}_{idx}")
+                    ice=st.radio("Lượng đá",ICE,horizontal=True,key=f"ice_{category}_{idx}")
+                    unit=product["price"]+TOPPINGS[topping]
+                    st.markdown(f"**Giá mỗi ly:** {money(unit)}　·　**Thành tiền:** {money(unit*qty)}")
+                    submitted=st.form_submit_button("＋ Thêm vào giỏ hàng",use_container_width=True)
                     if submitted:
-                        add_to_cart(
-                            product,
-                            quantity,
-                            topping,
-                            sweetness,
-                            ice
-                        )
-                        st.session_state[
-                            f"notice_{category}_{idx}"
-                        ] = product["message"]
-                        st.session_state[
-                            f"added_{category}_{idx}"
-                        ] = True
-
-                if st.session_state.get(f"added_{category}_{idx}", False):
+                        add_item(product,qty,topping,sweet,ice)
+                        st.session_state[f"notice_{category}_{idx}"]=product["message"]
+                        st.session_state[f"added_{category}_{idx}"]=True
+                        st.rerun()
+                if st.session_state.get(f"added_{category}_{idx}",False):
                     st.success("Đã thêm món vào giỏ hàng!")
-                    st.info(
-                        st.session_state.get(
-                            f"notice_{category}_{idx}", product["message"]
-                        )
-                    )
+                    st.info(st.session_state.get(f"notice_{category}_{idx}",product["message"]))
+    st.divider(); x,y=st.columns(2)
+    with x:
+        if st.button("← Về trang chủ",use_container_width=True): navigate("Trang chủ")
+    with y:
+        if st.button("Sang giỏ hàng →",use_container_width=True): navigate("Giỏ hàng & thanh toán")
 
-    st.divider()
-    left, right = st.columns(2)
-
-    with left:
-        if st.button("🏠 Về trang chủ", use_container_width=True):
-            go_to("Trang chủ")
-            st.rerun()
-
-    with right:
-        if st.button("🧺 Sang giỏ hàng", use_container_width=True):
-            go_to("Giỏ hàng & thanh toán")
-            st.rerun()
-
-# =========================================================
-# 9. GIỎ HÀNG VÀ THANH TOÁN
-# =========================================================
-elif st.session_state.page == "Giỏ hàng & thanh toán":
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">ORDER • 02</div>
-        <h1>Giỏ hàng & thanh toán</h1>
-        <p class="subtitle">
-            Kiểm tra món đã chọn trước khi hoàn tất đơn hàng.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
+elif page=="Giỏ hàng & thanh toán":
+    hero("❖ ORDER & CHECKOUT ❖","Giỏ hàng & thanh toán","Kiểm tra món đã chọn trước khi hoàn tất đơn hàng.")
     if not st.session_state.cart:
-        st.info("Giỏ hàng đang trống. Mời bạn chọn thức uống yêu thích!")
-        if st.button("📜 Khám phá thực đơn", use_container_width=True):
-            go_to("Khám phá thực đơn")
-            st.rerun()
+        st.markdown('<div class="info-strip">🧺 Giỏ hàng đang trống. Mời bạn chọn thức uống yêu thích!</div>',unsafe_allow_html=True)
+        if st.button("📜 Khám phá thực đơn",use_container_width=True): navigate("Khám phá thực đơn")
     else:
-        st.markdown("### 🧺 Các món đã chọn")
-
-        for i, item in enumerate(st.session_state.cart):
+        section("CÁC MÓN ĐÃ CHỌN")
+        for i,item in enumerate(st.session_state.cart):
             with st.container(border=True):
-                a, b, c = st.columns([3, 1.2, 0.8])
-
+                a,b,c=st.columns([3,1.2,.8])
                 with a:
                     st.markdown(f"**{item['name']}**")
-                    st.caption(
-                        f"Topping: {item['topping']} | "
-                        f"Ngọt: {item['sweetness']} | "
-                        f"{item['ice']}"
-                    )
-                    st.caption(
-                        f"{money(item['base_price'])} + "
-                        f"{money(item['topping_price'])}/ly"
-                    )
-
+                    st.caption(f"Topping: {item['topping']} · Độ ngọt: {item['sweetness']} · {item['ice']}")
+                    st.caption(f"{money(item['base_price'])} + {money(item['topping_price'])} topping/ly")
                 with b:
                     st.write(f"Số lượng: **{item['quantity']}**")
-                    st.write(money(item["subtotal"]))
-
+                    st.write(f"**{money(item['subtotal'])}**")
                 with c:
-                    if st.button("🗑️ Xóa", key=f"delete_{i}"):
-                        st.session_state.cart.pop(i)
-                        st.rerun()
-
-        st.divider()
-        st.markdown("### 🎟️ Mã ưu đãi")
-
-        voucher_col, apply_col = st.columns([2, 1])
-
-        with voucher_col:
-            voucher_input = st.text_input(
-                "Nhập mã voucher",
-                value=st.session_state.voucher,
-                placeholder="Ví dụ: HOAINIEM10",
-                key="voucher_input_box"
-            )
-
-        with apply_col:
-            st.write("")
-            st.write("")
-            if st.button("Áp dụng mã", use_container_width=True):
-                code = voucher_input.strip().upper()
-
+                    if st.button("🗑️ Xóa",key=f"delete_{i}"): st.session_state.cart.pop(i); st.rerun()
+        st.divider(); section("VOUCHER ƯU ĐÃI","Mã dùng thử: HOAINIEM10, COBA15, TRAXUA20.")
+        vc,bc=st.columns([2,1])
+        with vc: voucher_input=st.text_input("Mã voucher",value=st.session_state.voucher,placeholder="Nhập mã ưu đãi",key="voucher_input_box")
+        with bc:
+            st.write(""); st.write("")
+            if st.button("Áp dụng mã",use_container_width=True):
+                code=voucher_input.strip().upper(); st.session_state.voucher=voucher_input.strip()
                 if code in VOUCHERS:
-                    st.session_state.voucher = code
-                    st.session_state.voucher_applied = code
-                    st.success(
-                        f"Áp dụng thành công: giảm "
-                        f"{int(VOUCHERS[code] * 100)}%!"
-                    )
-                else:
-                    st.session_state.voucher = voucher_input.strip()
-                    st.session_state.voucher_applied = ""
-                    st.error("Mã không hợp lệ. Vui lòng kiểm tra lại.")
-
+                    st.session_state.voucher_applied=code; st.success(f"Đã áp dụng {code} — giảm {int(VOUCHERS[code]*100)}%.")
+                else: st.session_state.voucher_applied=""; st.error("Mã không hợp lệ. Vui lòng kiểm tra lại.")
         if st.session_state.voucher_applied:
-            st.success(
-                f"Đang dùng mã {st.session_state.voucher_applied} "
-                f"(-{int(discount_rate() * 100)}%)."
-            )
-            if st.button("Bỏ voucher"):
-                clear_voucher()
-                st.rerun()
-
-        st.divider()
-        st.markdown("### 🧾 Hóa đơn tạm tính")
-
-        st.markdown('<div class="bill">', unsafe_allow_html=True)
-        st.markdown("#### TRÀ QUÁN HOÀI NIỆM")
-        st.caption(
-            "Thời gian: " + datetime.now().strftime("%d/%m/%Y %H:%M")
-        )
-        st.caption("HÓA ĐƠN ĐẶT MÓN")
-
+            st.info(f"Voucher đang dùng: {st.session_state.voucher_applied} (−{int(rate()*100)}%).")
+            if st.button("Bỏ voucher"): st.session_state.voucher_applied=""; st.session_state.voucher=""; st.rerun()
+        st.divider(); section("HÓA ĐƠN TẠM TÍNH")
+        st.markdown('<div class="bill-box">',unsafe_allow_html=True)
+        st.markdown("#### TRÀ QUÁN HOÀI NIỆM"); st.caption("Thời gian: "+datetime.now().strftime("%d/%m/%Y %H:%M")); st.caption("HÓA ĐƠN ĐẶT MÓN")
         for item in st.session_state.cart:
-            st.write(
-                f"**{item['name']}** — "
-                f"{item['quantity']} × {money(item['unit_price'])} "
-                f"= **{money(item['subtotal'])}**"
-            )
-
-        st.markdown("---")
-        st.write(f"Tạm tính: **{money(cart_subtotal())}**")
-        st.write(f"Giảm giá: **- {money(discount_amount())}**")
-        st.markdown(
-            f"## Tổng cộng: {money(grand_total())}"
-        )
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.divider()
-        st.markdown("### 💳 Phương thức thanh toán")
-
-        payment = st.radio(
-            "Bạn muốn thanh toán bằng cách nào?",
-            ["Tiền mặt", "Quét mã QR"],
-            horizontal=True,
-            key="payment_choice"
-        )
-        st.session_state.payment_method = payment
-
-        if payment == "Tiền mặt":
-            st.info(
-                "Bạn chọn thanh toán tiền mặt. Vui lòng thanh toán "
-                "cho nhân viên khi nhận món."
-            )
+            st.write(f"**{item['name']}** — {item['quantity']} × {money(item['unit_price'])} = **{money(item['subtotal'])}**")
+            st.caption(f"{item['topping']} · Ngọt {item['sweetness']} · {item['ice']}")
+        st.markdown("---"); st.write(f"Tạm tính: **{money(subtotal())}**"); st.write(f"Giảm giá: **− {money(discount())}**")
+        st.markdown(f'<div class="big-total">TỔNG CỘNG: {money(total())}</div>',unsafe_allow_html=True); st.markdown("</div>",unsafe_allow_html=True)
+        st.divider(); section("PHƯƠNG THỨC THANH TOÁN")
+        payment=st.radio("Bạn muốn thanh toán bằng cách nào?",["Tiền mặt","Quét mã QR"],horizontal=True,key="payment_choice")
+        if payment=="Tiền mặt": st.markdown('<div class="info-strip">💵 Bạn chọn thanh toán tiền mặt. Vui lòng thanh toán cho nhân viên khi nhận món.</div>',unsafe_allow_html=True)
         else:
-            st.warning(
-                "QR bên dưới là mã minh họa, KHÔNG phải QR nhận tiền thật. "
-                "Chủ quán cần thay bằng QR ngân hàng của mình trước khi sử dụng."
-            )
-            qr_col1, qr_col2 = st.columns([1, 1.4])
+            st.warning("QR bên dưới chỉ là mã minh họa, KHÔNG phải QR chuyển khoản ngân hàng thật.")
+            q1,q2=st.columns([1,1.4])
+            with q1: st.image(make_qr(total()),caption="QR minh họa — chưa thể chuyển khoản",width=230)
+            with q2:
+                st.markdown("#### Thông tin thanh toán"); st.write("Đơn vị: Trà Quán Hoài Niệm"); st.write("Số tiền:",money(total())); st.write("Nội dung: TRAQUANHOAINIEM")
+                st.caption("Khi triển khai thật, thay bằng QR ngân hàng hoặc nhà cung cấp thanh toán của quán.")
+        st.divider(); c1,c2,c3=st.columns(3)
+        with c1:
+            if st.button("＋ Chọn thêm món",use_container_width=True): navigate("Khám phá thực đơn")
+        with c2:
+            if st.button("Xóa toàn bộ",use_container_width=True): st.session_state.cart=[]; st.session_state.voucher=""; st.session_state.voucher_applied=""; st.rerun()
+        with c3:
+            if st.button("✓ Xác nhận đặt món",use_container_width=True):
+                st.session_state.order_confirmation={"items":[i.copy() for i in st.session_state.cart],"subtotal":subtotal(),"discount":discount(),"total":total(),"payment":payment,"time":datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+                navigate("Đơn hàng đã xác nhận")
 
-            with qr_col1:
-                st.image(
-                    create_demo_qr(grand_total()),
-                    caption="QR minh họa — chưa thể chuyển khoản",
-                    width=230
-                )
-
-            with qr_col2:
-                st.markdown("#### Thông tin thanh toán")
-                st.write("Đơn vị: Trà Quán Hoài Niệm")
-                st.write("Số tiền:", money(grand_total()))
-                st.write("Nội dung: TRAQUAN HOAINIEM")
-                st.caption(
-                    "Khi triển khai thật, hãy dùng QR thanh toán do ngân hàng "
-                    "hoặc nhà cung cấp thanh toán của quán tạo ra."
-                )
-
-        st.divider()
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            if st.button("➕ Chọn thêm món", use_container_width=True):
-                go_to("Khám phá thực đơn")
-                st.rerun()
-
-        with col2:
-            if st.button("🧹 Xóa toàn bộ", use_container_width=True):
-                st.session_state.cart = []
-                clear_voucher()
-                st.rerun()
-
-        with col3:
-            if st.button("✅ Xác nhận đặt món", use_container_width=True):
-                st.session_state.order_confirmation = {
-                    "items": [item.copy() for item in st.session_state.cart],
-                    "subtotal": cart_subtotal(),
-                    "discount": discount_amount(),
-                    "total": grand_total(),
-                    "payment": st.session_state.payment_method,
-                    "time": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                }
-                go_to("Đơn hàng đã xác nhận")
-                st.rerun()
-
-# =========================================================
-# 10. KẾT QUẢ ĐẶT MÓN
-# =========================================================
-elif st.session_state.page == "Đơn hàng đã xác nhận":
-    order = st.session_state.get("order_confirmation")
-
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">THANK YOU</div>
-        <h1>Cảm ơn bạn đã ghé quán!</h1>
-        <p class="subtitle">Một ly trà, một niềm vui nho nhỏ.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
+elif page=="Đơn hàng đã xác nhận":
+    hero("❖ THANK YOU ❖","Cảm ơn bạn đã ghé quán!","Một ly trà, một niềm vui nho nhỏ.")
+    order=st.session_state.order_confirmation
     if order:
-        st.success("Đơn hàng đã được ghi nhận trên ứng dụng demo.")
-        st.caption(f"Thời gian: {order['time']}")
-
-        st.markdown("### 🧾 Hóa đơn")
+        st.success("Đơn hàng đã được ghi nhận trên ứng dụng demo."); st.caption("Thời gian: "+order["time"]); section("HÓA ĐƠN CỦA BẠN")
         for item in order["items"]:
-            st.write(
-                f"- **{item['name']}** × {item['quantity']} — "
-                f"{money(item['subtotal'])}"
-            )
-            st.caption(
-                f"Topping: {item['topping']} | "
-                f"Độ ngọt: {item['sweetness']} | {item['ice']}"
-            )
-
-        st.write(f"Tạm tính: {money(order['subtotal'])}")
-        st.write(f"Giảm giá: -{money(order['discount'])}")
-        st.markdown(f"## Tổng thanh toán: {money(order['total'])}")
-        st.write(f"Phương thức: **{order['payment']}**")
-
-        if order["payment"] == "Quét mã QR":
-            st.warning(
-                "Đây là bản demo, ứng dụng chưa xác minh giao dịch ngân hàng."
-            )
-        else:
-            st.info(
-                "Đơn hàng tiền mặt đã được ghi nhận trên giao diện demo. "
-                "Vui lòng thanh toán cho nhân viên."
-            )
-
-        st.markdown("---")
-        if st.button("🏠 Về trang chủ", use_container_width=True):
-            go_to("Trang chủ")
-            st.rerun()
-
-        if st.button("🛍️ Đặt đơn mới", use_container_width=True):
-            st.session_state.cart = []
-            clear_voucher()
-            st.session_state.order_confirmation = None
-            go_to("Khám phá thực đơn")
-            st.rerun()
+            st.write(f"• **{item['name']}** × {item['quantity']} — **{money(item['subtotal'])}**")
+            st.caption(f"Topping: {item['topping']} · Độ ngọt: {item['sweetness']} · {item['ice']}")
+        st.write(f"Tạm tính: {money(order['subtotal'])}"); st.write(f"Giảm giá: −{money(order['discount'])}")
+        st.markdown(f'<div class="big-total">TỔNG THANH TOÁN: {money(order["total"])}</div>',unsafe_allow_html=True); st.write(f"Phương thức: **{order['payment']}**")
+        if order["payment"]=="Quét mã QR": st.warning("Bản demo chưa xác minh giao dịch ngân hàng. Chỉ xác nhận thanh toán sau khi kiểm tra giao dịch thực tế.")
+        else: st.info("Đơn hàng tiền mặt đã được ghi nhận trên giao diện demo. Vui lòng thanh toán cho nhân viên.")
+        st.divider(); a,b=st.columns(2)
+        with a:
+            if st.button("🏠 Về trang chủ",use_container_width=True): navigate("Trang chủ")
+        with b:
+            if st.button("🛍️ Đặt đơn mới",use_container_width=True):
+                st.session_state.cart=[]; st.session_state.voucher=""; st.session_state.voucher_applied=""; st.session_state.order_confirmation=None; navigate("Khám phá thực đơn")
     else:
         st.info("Chưa có đơn hàng nào được xác nhận.")
-        if st.button("Đến giỏ hàng"):
-            go_to("Giỏ hàng & thanh toán")
-            st.rerun()
+        if st.button("Đến giỏ hàng"): navigate("Giỏ hàng & thanh toán")
 
-# =========================================================
-# 11. VÒNG QUAY MAY MẮN
-# =========================================================
-elif st.session_state.page == "Vòng quay may mắn":
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">LUCKY CORNER • 03</div>
-        <h1>Vòng quay may mắn</h1>
-        <p class="subtitle">
-            Ghé quán một chút, mang về niềm vui.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.write(
-        "Mỗi lượt chơi nhận một phần quà. Hãy nhấn nút để thử vận may nhé!"
-    )
-
-    prizes = [
-        {"name": "Giảm 10%", "code": "HOAINIEM10", "type": "voucher"},
-        {"name": "Giảm 15%", "code": "COBA15", "type": "voucher"},
-        {"name": "Giảm 20%", "code": "TRAXUA20", "type": "voucher"},
-        {"name": "Tặng topping", "code": None, "type": "gift"},
-        {"name": "Một lời chúc an yên", "code": None, "type": "message"},
-    ]
-
-    st.markdown("""
-    <div style="background:#fffaf1;border:2px dashed #a58a60;
-    border-radius:50%;width:250px;height:250px;margin:20px auto;
-    display:flex;align-items:center;justify-content:center;
-    text-align:center;">
-        <div>
-            <div style="font-size:55px">🎡</div>
-            <div style="font-size:20px;font-weight:bold;color:#5a4934">
-                VÒNG QUAY<br/>HOÀI NIỆM
-            </div>
-            <div style="color:#8b7655">Thử vận may của bạn</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("### 🎁 Các phần quà")
-    p1, p2, p3 = st.columns(3)
-    with p1:
-        st.markdown("**🎟️ Voucher**")
-        st.write("Giảm 10%, 15% hoặc 20%.")
-    with p2:
-        st.markdown("**🧋 Quà nhỏ**")
-        st.write("Một topping miễn phí.")
-    with p3:
-        st.markdown("**💌 Lời chúc**")
-        st.write("Một lời chúc dễ thương.")
-
+elif page=="Vòng quay may mắn":
+    hero("❖ LUCKY CORNER ❖","Vòng quay may mắn","Ghé quán một chút, mang về niềm vui.")
+    st.write("Mỗi lượt chơi nhận một phần quà. Hãy nhấn nút để thử vận may nhé!")
+    st.markdown("<div style='background:#203F32;border:5px double #E4B548;border-radius:50%;width:245px;height:245px;margin:22px auto;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 0 rgba(32,63,50,.12)'><div><div style='font-size:57px'>🎡</div><div style='font-family:Georgia,serif;font-size:21px;font-weight:bold;color:#F7EEDB'>VÒNG QUAY<br>HOÀI NIỆM</div><div style='color:#E4B548;font-size:12px;margin-top:8px'>❖ THỬ VẬN MAY ❖</div></div></div>",unsafe_allow_html=True)
+    a,b,c=st.columns(3)
+    for col,emoji,title,desc in [(a,"🎟️","Voucher","Giảm 10%, 15% hoặc 20%."),(b,"🧋","Quà nhỏ","Tặng một phần topping."),(c,"💌","Lời chúc","Một lời chúc dễ thương từ quán.")]:
+        with col: st.markdown(f'<div class="paper-card"><h3>{emoji} {title}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
+    prizes=[{"name":"Giảm 10%","code":"HOAINIEM10","type":"voucher"},{"name":"Giảm 15%","code":"COBA15","type":"voucher"},{"name":"Giảm 20%","code":"TRAXUA20","type":"voucher"},{"name":"Tặng topping","code":None,"type":"gift"},{"name":"Một lời chúc an yên","code":None,"type":"message"}]
     if st.session_state.used_spin:
-        st.info("Bạn đã sử dụng lượt quay trong phiên này.")
-        result = st.session_state.spin_result
+        st.info("Bạn đã sử dụng lượt quay trong phiên này."); result=st.session_state.spin_result
         if result:
-            st.markdown(f"### 🎉 Bạn nhận được: {result['name']}")
+            st.markdown(f"## 🎉 Bạn nhận được: {result['name']}")
             if result["code"]:
                 st.code(result["code"])
-                if st.button("Dùng voucher này"):
-                    st.session_state.voucher = result["code"]
-                    st.session_state.voucher_applied = result["code"]
-                    go_to("Giỏ hàng & thanh toán")
-                    st.rerun()
-            elif result["type"] == "gift":
-                st.success(
-                    "Bạn đã nhận quà tặng topping. Khi dùng thật, nhân viên "
-                    "cần xác nhận và áp dụng phần quà vào đơn hàng."
-                )
-            else:
-                st.success(
-                    "Chúc bạn luôn giữ được sự bình yên và tìm thấy niềm vui "
-                    "trong những điều giản dị."
-                )
-    else:
-        if st.button("🎡 QUAY NGAY", use_container_width=True):
-            result = random.choice(prizes)
-            st.session_state.spin_result = result
-            st.session_state.used_spin = True
-            st.rerun()
+                if st.button("Dùng voucher này",use_container_width=True):
+                    st.session_state.voucher=result["code"]; st.session_state.voucher_applied=result["code"]; navigate("Giỏ hàng & thanh toán")
+            elif result["type"]=="gift": st.success("Bạn đã nhận quà tặng topping. Nhân viên cần xác nhận và áp dụng vào đơn hàng.")
+            else: st.success("Chúc bạn luôn bình yên và tìm thấy niềm vui trong những điều giản dị.")
+    elif st.button("🎡 QUAY NGAY",use_container_width=True):
+        st.session_state.spin_result=random.choice(prizes); st.session_state.used_spin=True; st.rerun()
+    st.caption("Vòng quay là tính năng demo trong phiên ứng dụng. Khi kinh doanh thật, hãy thiết lập thể lệ và điều kiện đổi thưởng rõ ràng.")
 
-    st.caption(
-        "Lưu ý: vòng quay là tính năng demo trong phiên ứng dụng. "
-        "Nếu triển khai kinh doanh, hãy thiết lập thể lệ, hạn sử dụng, "
-        "điều kiện áp dụng voucher và cơ chế lưu lượt quay phù hợp."
-    )
-
-# =========================================================
-# 12. GIỚI THIỆU QUÁN
-# =========================================================
-elif st.session_state.page == "Về chúng tôi":
-    st.markdown("""
-    <div class="hero">
-        <div class="section-label" style="color:#e4cda7">OUR STORY</div>
-        <h1>Câu chuyện của Trà Quán</h1>
-        <p class="subtitle">Giữ chút hương xưa giữa nhịp sống hiện đại.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    left, right = st.columns([1, 1])
-
-    with left:
-        show_product_image(
-            "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1000&q=85",
-            "Không gian thưởng trà đầy hoài niệm"
-        )
-
+elif page=="Về chúng tôi":
+    hero("❖ OUR STORY ❖","Câu chuyện của Trà Quán","Giữ chút hương xưa giữa nhịp sống hiện đại.")
+    left,right=st.columns([1,1],gap="large")
+    with left: show_image("https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=85","Không gian thưởng trà đầy hoài niệm")
     with right:
-        st.markdown("### Khởi nguồn từ những điều bình dị")
-        st.write("""
-        Trà Quán Hoài Niệm được xây dựng từ mong muốn lưu giữ những
-        hình ảnh thân thuộc của Việt Nam xưa: chiếc bàn gỗ, tách trà,
-        con phố nhỏ và những lời hỏi thăm chân thành.
+        st.markdown("## Khởi nguồn từ những điều bình dị")
+        st.write("Trà Quán Hoài Niệm được xây dựng từ mong muốn lưu giữ những hình ảnh thân thuộc của Việt Nam xưa: chiếc bàn gỗ, tách trà, con phố nhỏ và những lời hỏi thăm chân thành. Chúng tôi tin rằng một thức uống ngon không chỉ nằm ở hương vị, mà còn ở cảm xúc mà nó mang lại.")
+        st.markdown('<div class="message-box">“Chậm một nhịp, để thương những điều bình dị.”</div>',unsafe_allow_html=True)
+    section("ĐIỀU QUÁN LUÔN HƯỚNG ĐẾN")
+    a,b,c=st.columns(3)
+    for col,title,desc in [(a,"Chân thành","Trải nghiệm thân thiện và gần gũi."),(b,"Chất riêng","Thức uống hiện đại trong cảm hứng xưa."),(c,"Bình yên","Mỗi lần ghé quán là một lần sống chậm.")]:
+        with col: st.markdown(f'<div class="paper-card"><h3>{title}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
+    st.divider(); section("THÔNG TIN LIÊN HỆ")
+    st.write("**Tên quán:** Trà Quán Hoài Niệm"); st.write("**Phong cách:** Trà sữa và matcha hoài cổ"); st.write("**Địa chỉ:** Bổ sung địa chỉ thật của quán tại đây"); st.write("**Fanpage:** Bổ sung đường dẫn fanpage tại đây")
+    if st.button("📜 Xem thực đơn ngay",use_container_width=True): navigate("Khám phá thực đơn")
 
-        Chúng tôi tin rằng một thức uống ngon không chỉ nằm ở hương vị,
-        mà còn ở cảm xúc mà nó mang lại. Bởi vậy, mỗi món trong thực đơn
-        đều được đặt một cái tên gợi nhớ đến những nhân vật, góc phố
-        và khoảnh khắc bình dị.
-
-        Hãy ghé quán, chọn một ly trà và dành cho mình một khoảng nghỉ.
-        """)
-
-    st.divider()
-    st.markdown("### 🌿 Điều quán luôn hướng đến")
-
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown("#### Chân thành")
-        st.write("Tạo trải nghiệm thân thiện và gần gũi.")
-    with c2:
-        st.markdown("#### Chất riêng")
-        st.write("Kết hợp thức uống hiện đại với cảm hứng xưa.")
-    with c3:
-        st.markdown("#### Bình yên")
-        st.write("Để mỗi lần ghé quán là một lần sống chậm.")
-
-    st.markdown("---")
-    st.markdown("### 📮 Thông tin liên hệ")
-    st.write("Tên quán: Trà Quán Hoài Niệm")
-    st.write("Phong cách: Trà sữa và matcha hoài cổ")
-    st.write("Địa chỉ: Bổ sung địa chỉ thật của quán tại đây")
-    st.write("Fanpage: Bổ sung đường dẫn fanpage tại đây")
-
-    if st.button("📜 Xem thực đơn ngay", use_container_width=True):
-        go_to("Khám phá thực đơn")
-        st.rerun()
-
-# =========================================================
-# 13. CHÂN TRANG
-# =========================================================
 st.markdown("---")
-st.markdown(
-    "<div style='text-align:center;color:#887b67;font-size:12px'>"
-    "TRÀ QUÁN HOÀI NIỆM · HƯƠNG XƯA VỊ CŨ · "
-    "Cảm ơn bạn đã ghé thăm"
-    "</div>",
-    unsafe_allow_html=True
-)
+st.markdown("<div class='footer'>❖ TRÀ QUÁN HOÀI NIỆM ❖<br>HƯƠNG XƯA · VỊ CŨ · CẢM ƠN BẠN ĐÃ GHÉ THĂM</div>",unsafe_allow_html=True)
+
