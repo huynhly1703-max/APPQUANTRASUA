@@ -54,7 +54,7 @@ div[data-testid="stAlert"]{border-radius:10px}div[data-testid="stImage"] img{bor
 
 MENU = {
     "Trà sữa": [
-        {"name":"Trà Sữa Cô Ba","price":35000,"image":"https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=900&q=85","description":"Trà đen thơm dịu, sữa béo vừa, ngọt ngào như ký ức.","message":"Cô Ba gửi bạn một chút ngọt ngào của những ngày xưa cũ!"},
+        {"name":"Trà Sữa Cô Ba","price":35000,"image":"images tra_sua_co_ba.ipg.png","description":"Trà đen thơm dịu, sữa béo vừa, ngọt ngào như ký ức.","message":"Cô Ba gửi bạn một chút ngọt ngào của những ngày xưa cũ!"},
         {"name":"Trà Sữa Gánh Hàng Rong","price":39000,"image":"https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=900&q=85","description":"Vị trà đậm đà, sữa thơm, gợi nhớ những con phố thân quen.","message":"Mời bạn nhâm nhi một ly trà, nghe phố kể chuyện ngày xưa."},
         {"name":"Trà Sữa Phố Hội","price":42000,"image":"https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=900&q=85","description":"Trà sữa thơm mượt, lấy cảm hứng từ nét trầm mặc phố cổ.","message":"Chúc bạn có một chuyến dạo chơi thật an yên tại Phố Hội!"},
         {"name":"Trà Sữa Mợ Hai","price":40000,"image":"https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=85","description":"Vị trà thanh, sữa dịu, nhẹ nhàng và tinh tế.","message":"Mợ Hai chúc bạn hôm nay gặp toàn điều dễ thương!"},
