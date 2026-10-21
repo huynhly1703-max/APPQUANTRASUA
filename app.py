@@ -262,89 +262,150 @@ footer {
 # =========================================================
 # 4. THÔNG TIN MENU
 # =========================================================
+
 MENU = [
+    # ==================== TRÀ SỮA ====================
     {
         "id": "ts01",
-        "name": "Trà Sữa Cung Đình",
+        "name": "Trà Sữa Cô Ba Sài Gòn",
         "category": "Trà sữa",
         "price": 35000,
-        "desc": "Trà đen thơm, sữa béo dịu dàng.",
+        "desc": "Trà đen đậm vị, sữa thơm béo dịu dàng.",
         "image": "https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=700&q=80",
         "emoji": "🧋"
     },
     {
         "id": "ts02",
-        "name": "Trà Sữa Hồng Kông",
+        "name": "Trà Sữa Tiệm May Xưa",
         "category": "Trà sữa",
         "price": 39000,
-        "desc": "Đậm vị trà, hậu vị ngọt thanh.",
+        "desc": "Vị trà thanh nhẹ, ngọt ngào như chuyện cũ.",
         "image": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=700&q=80",
         "emoji": "🥤"
     },
     {
         "id": "ts03",
-        "name": "Trà Sữa Ô Long",
+        "name": "Trà Sữa Phố Đèn Lồng",
         "category": "Trà sữa",
         "price": 38000,
-        "desc": "Hương ô long thanh nhã, thơm lâu.",
+        "desc": "Hương trà thơm nồng, sữa béo quyện vị.",
         "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=700&q=80",
-        "emoji": "🍵"
+        "emoji": "🏮"
     },
     {
+        "id": "ts04",
+        "name": "Trà Sữa Chiều Bên Hiên",
+        "category": "Trà sữa",
+        "price": 42000,
+        "desc": "Ngọt dịu, mềm mại như buổi chiều yên ả.",
+        "image": "https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=700&q=80",
+        "emoji": "🌸"
+    },
+    {
+        "id": "ts05",
+        "name": "Trà Sữa Bức Thư Tình",
+        "category": "Trà sữa",
+        "price": 45000,
+        "desc": "Hương vị ngọt ngào gửi trao những nhớ thương.",
+        "image": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=700&q=80",
+        "emoji": "💌"
+    },
+
+    # ==================== MATCHA ====================
+    {
         "id": "ma01",
-        "name": "Matcha Ngọc Bích",
+        "name": "Matcha Ngọc Bích Đông Dương",
         "category": "Matcha",
         "price": 42000,
-        "desc": "Matcha xanh mịn, vị thanh dịu.",
+        "desc": "Matcha xanh mịn, thanh tao và tinh tế.",
         "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
         "emoji": "🍵"
     },
     {
         "id": "ma02",
-        "name": "Matcha Sữa Hoàng Gia",
+        "name": "Matcha Nắng Qua Rèm",
         "category": "Matcha",
         "price": 45000,
-        "desc": "Matcha đậm đà hòa cùng sữa tươi.",
+        "desc": "Matcha hòa sữa tươi, dịu dàng như nắng sớm.",
         "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80",
-        "emoji": "🥛"
+        "emoji": "🌿"
     },
     {
         "id": "ma03",
-        "name": "Matcha Đậu Đỏ",
+        "name": "Matcha Vườn Ngọc Lan",
         "category": "Matcha",
         "price": 47000,
-        "desc": "Matcha thơm mát, đậu đỏ bùi ngọt.",
+        "desc": "Vị trà xanh thanh mát gợi nhớ khu vườn xưa.",
         "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
-        "emoji": "🍃"
+        "emoji": "🌼"
     },
     {
+        "id": "ma04",
+        "name": "Matcha Gác Mái Xưa",
+        "category": "Matcha",
+        "price": 48000,
+        "desc": "Matcha đậm vị, béo mịn và đầy lưu luyến.",
+        "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80",
+        "emoji": "🏡"
+    },
+    {
+        "id": "ma05",
+        "name": "Matcha Trăng Bên Thềm",
+        "category": "Matcha",
+        "price": 49000,
+        "desc": "Matcha thơm dịu, kết hợp đậu đỏ bùi ngọt.",
+        "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=80",
+        "emoji": "🌙"
+    },
+
+    # ==================== CÀ PHÊ ====================
+    {
         "id": "cf01",
-        "name": "Cà Phê Phin Sài Gòn",
+        "name": "Cà Phê Phin Sài Gòn Xưa",
         "category": "Cà phê",
         "price": 29000,
-        "desc": "Cà phê phin đậm đà, phong vị xưa.",
+        "desc": "Cà phê phin đậm đà, lưu giữ hương vị phố xưa.",
         "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80",
         "emoji": "☕"
     },
     {
         "id": "cf02",
-        "name": "Bạc Xỉu Hoài Niệm",
+        "name": "Bạc Xỉu Góc Phố",
         "category": "Cà phê",
         "price": 32000,
-        "desc": "Sữa ngọt dịu, cà phê thoảng hương.",
+        "desc": "Sữa thơm béo, cà phê thoảng nhẹ thân quen.",
         "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80",
         "emoji": "🥛"
     },
     {
         "id": "cf03",
-        "name": "Cà Phê Sữa Đá",
+        "name": "Cà Phê Ban Công Cũ",
         "category": "Cà phê",
-        "price": 30000,
-        "desc": "Hương vị thân quen của góc phố cũ.",
+        "price": 33000,
+        "desc": "Vị cà phê đậm sâu cho những phút giây lắng đọng.",
         "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=80",
-        "emoji": "🧊"
+        "emoji": "🏛️"
+    },
+    {
+        "id": "cf04",
+        "name": "Cà Phê Đêm Sài Thành",
+        "category": "Cà phê",
+        "price": 35000,
+        "desc": "Đậm đà, mạnh mẽ như nhịp phố khi lên đèn.",
+        "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=80",
+        "emoji": "🌃"
+    },
+    {
+        "id": "cf05",
+        "name": "Cà Phê Thư Viện Cũ",
+        "category": "Cà phê",
+        "price": 38000,
+        "desc": "Hương cà phê sâu lắng, hợp những ngày hoài niệm.",
+        "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80",
+        "emoji": "📚"
     },
 ]
+
 
 TOPPINGS = {
     "Không topping": 0,
