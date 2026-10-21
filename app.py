@@ -299,12 +299,14 @@ with st.sidebar:
         if st.session_state.page in pages else 0
     )
 
-    selected_page = st.radio(
-        "MENU",
-        pages,
-        index=current_index,
-        key="main_navigation"
-    )
+selected_page = st.radio(
+    "MENU",
+    pages,
+    index=None,
+    key="main_navigation"
+)
+
+if selected_page is not None:
     st.session_state.page = selected_page
 
     st.divider()
