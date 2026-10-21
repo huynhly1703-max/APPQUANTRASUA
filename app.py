@@ -47,7 +47,7 @@ div.stButton>button:hover,div.stFormSubmitButton>button:hover{background:var(--t
 .stTextInput input,.stNumberInput input,.stSelectbox [data-baseweb="select"]>div{background:var(--white);border-color:#CDB994;border-radius:8px}
 div[data-testid="stExpander"]{background:rgba(255,249,237,.75);border:1px solid #D8C6A5;border-radius:10px}
 div[data-testid="stAlert"]{border-radius:10px}div[data-testid="stImage"] img{border-radius:10px}
-.footer{text-align:center;color:var(--muted);font-size:12px;letter-spacing:1px;padding:14px 0 4px}
+.footer{text-align:center;color:var(--muted);font-size:12px;letter-spacing:1px;padding:14px 0 4px}\n[data-testid="stForm"]{background:rgba(255,249,237,.72);border:1px solid #D8C6A5;border-radius:12px;padding:16px}
 @media(max-width:700px){.hero{padding:25px 20px}.hero:before{font-size:18px;right:10px}}
 </style>
 """, unsafe_allow_html=True)
@@ -72,7 +72,7 @@ VOUCHERS={"HOAINIEM10":0.10,"COBA15":0.15,"TRAXUA20":0.20}
 PAGES=["Trang chủ","Khám phá thực đơn","Giỏ hàng & thanh toán","Vòng quay may mắn","Về chúng tôi","Đơn hàng đã xác nhận"]
 
 # State is preserved across Streamlit reruns.
-for key, value in {"cart":[],"page":"Trang chủ","voucher":"","voucher_applied":"","spin_result":None,"used_spin":False,"order_confirmation":None}.items():
+for key, value in {"cart":[],"page":"Trang chủ","voucher":"","voucher_applied":"","spin_result":None,"used_spin":False,"order_confirmation":None,"feedbacks":[]}.items():
     if key not in st.session_state: st.session_state[key]=value
 
 def money(value): return f"{int(value):,}".replace(",",".")+" đ"
@@ -239,8 +239,49 @@ elif page=="Đơn hàng đã xác nhận":
             st.caption(f"Topping: {item['topping']} · Độ ngọt: {item['sweetness']} · {item['ice']}")
         st.write(f"Tạm tính: {money(order['subtotal'])}"); st.write(f"Giảm giá: −{money(order['discount'])}")
         st.markdown(f'<div class="big-total">TỔNG THANH TOÁN: {money(order["total"])}</div>',unsafe_allow_html=True); st.write(f"Phương thức: **{order['payment']}**")
-        if order["payment"]=="Quét mã QR": st.warning("Bản demo chưa xác minh giao dịch ngân hàng. Chỉ xác nhận thanh toán sau khi kiểm tra giao dịch thực tế.")
-        else: st.info("Đơn hàng tiền mặt đã được ghi nhận trên giao diện demo. Vui lòng thanh toán cho nhân viên.")
+        if order["payment"]=="Quét mã QR":
+            st.warning("Bản demo chưa xác minh giao dịch ngân hàng. Chỉ xác nhận thanh toán sau khi kiểm tra giao dịch thực tế.")
+        else:
+            st.info("Đơn hàng tiền mặt đã được ghi nhận trên giao diện demo. Vui lòng thanh toán cho nhân viên.")
+
+        # Feedback form shown on the order confirmation page.
+        st.divider()
+        section("ĐÁNH GIÁ & PHẢN HỒI", "Ý kiến của bạn giúp Trà Quán Hoài Niệm phục vụ tốt hơn.")
+        feedback_key = "feedback_submitted_" + order["time"].replace("/", "_").replace(":", "_").replace(" ", "_")
+        if st.session_state.get(feedback_key, False):
+            st.success("Cảm ơn bạn đã dành thời gian đánh giá và gửi lời nhắn cho quán! 🌿")
+            saved_feedback = next(
+                (f for f in st.session_state.feedbacks if f.get("order_time") == order["time"]),
+                None
+            )
+            if saved_feedback:
+                st.write(f"Đánh giá của bạn: {'⭐' * saved_feedback['rating']}")
+                if saved_feedback["message"]:
+                    st.caption("Lời nhắn: " + saved_feedback["message"])
+        else:
+            with st.form(key="feedback_form_" + order["time"].replace("/", "_").replace(":", "_").replace(" ", "_")):
+                rating = st.select_slider(
+                    "Bạn hài lòng với trải nghiệm tại quán ở mức nào?",
+                    options=[1, 2, 3, 4, 5],
+                    value=5,
+                    format_func=lambda x: "⭐" * x + f"  ({x}/5)"
+                )
+                feedback_message = st.text_area(
+                    "Lời nhắn dành cho quán (không bắt buộc)",
+                    placeholder="Chia sẻ cảm nhận của bạn về đồ uống hoặc trải nghiệm đặt món...",
+                    max_chars=500
+                )
+                feedback_submit = st.form_submit_button("Gửi đánh giá", use_container_width=True)
+                if feedback_submit:
+                    st.session_state.feedbacks.append({
+                        "order_time": order["time"],
+                        "rating": int(rating),
+                        "message": feedback_message.strip(),
+                        "submitted_at": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                    })
+                    st.session_state[feedback_key] = True
+                    st.rerun()
+
         st.divider(); a,b=st.columns(2)
         with a:
             if st.button("🏠 Về trang chủ",use_container_width=True): navigate("Trang chủ")
