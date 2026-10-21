@@ -64,6 +64,11 @@ MENU = {
         {"name":"Matcha Sữa Cô Tư","price":45000,"image":"https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85","description":"Matcha đậm vị, sữa béo nhẹ, hậu vị thanh.","message":"Cô Tư mời bạn một ly xanh mát, uống là thấy thương!"},
         {"name":"Matcha Đêm Trăng","price":47000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.","message":"Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."},
     ],
+    "Cà ": [
+        {"name":"Cà Phê Phin Sài Gòn Xưa","price":29000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Cà phê phin đậm đà, lưu giữ hương vị hoài niệm.","message":"Từng giọt đắng ngắt đọng lại vị ngọt hoài niệm."},
+        {"name":"Bạc Xỉu Góc Phố","price":000,"image":"https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85","description":"Sữa thơm béo, cà phê thoáng nhẹ thân quen.","message":"Đã thèm vị ngọt béo nơi quán quen góc đường."},
+        {"name":"Cà Phê Đêm Sài Thành","price":000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Đậm đà, mạnh mẽ như nhịp sống khi lên đèn.","message":"Thức cùng vẻ đẹp lung linh của đêm Sài Thành."},
+    ],
 }
 TOPPINGS={"Không topping":0,"Trân châu đen":7000,"Trân châu trắng":8000,"Thạch củ năng":8000,"Pudding trứng":10000,"Kem cheese":12000}
 SWEETNESS=["0%","30%","50%","70%","100%"]
