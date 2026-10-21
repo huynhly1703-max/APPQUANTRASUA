@@ -399,3 +399,60 @@ elif st.session_state.current_page == "Vòng quay may mắn":
                 outcomes = [
                     ("Voucher SAIGON20 - Giảm 20%", "SAIGON20"),
                     ("Voucher HOAINIEM10 - Giảm 10%", "HOAINIEM10"),
+                    ("Voucher MAYMAN15 - Giảm 15%", "MAYMAN15"),
+                    ("Quà tặng: 01 Bưu thiếp Sài Gòn Xưa cổ điển", None)
+                ]
+                res_title, res_code = random.choice(outcomes)
+                st.session_state.won_voucher = res_title
+                
+                if res_code:
+                    st.balloons()
+                    st.success(f"🎉 Chúc mừng bạn đã trúng: **{res_title}**!")
+                    st.info(f"Mã Voucher của bạn là: **{res_code}**. Hãy sao chép để dùng ở mục Giỏ hàng!")
+                else:
+                    st.success(f"🎁 Bạn nhận được: **{res_title}**! Quán sẽ gửi kèm đơn hàng cho bạn.")
+
+# --- TRANG 5: THANH TOÁN ---
+elif st.session_state.current_page == "Thanh toán":
+    st.markdown("<h1 class='title-indochine'>THANH TOÁN ĐƠN HÀNG</h1>", unsafe_allow_html=True)
+    
+    if not st.session_state.cart:
+        st.warning("Không có đơn hàng nào cần thanh toán!")
+    else:
+        st.subheader("Chọn phương thức thanh toán")
+        pay_method = st.radio("Hình thức:", ["💵 Tiền mặt khi nhận hàng (COD)", "📱 Chuyển khoản QR Code Minh Họa"])
+        
+        if pay_method == "📱 Chuyển khoản QR Code Minh Họa":
+            st.image("https://picsum.photos/seed/vietqr/250/250", caption="Mã QR Chuyển khoản VietQR")
+            st.caption("Nội dung chuyển khoản: HOAINIEM_SĐT_CUA_BAN")
+        
+        if st.button("✅ Hoàn Tất Đặt Hàng & Thanh Toán"):
+            st.session_state.order_completed = True
+            st.balloons()
+            st.success("🎉 Đơn hàng của bạn đã được tiếp nhận thành công! Quán đang pha chế...")
+            time.sleep(1)
+            st.session_state.current_page = "Đánh giá & Phản hồi"
+            st.rerun()
+
+# --- TRANG 6: ĐÁNH GIÁ & PHẢN HỒI ---
+elif st.session_state.current_page == "Đánh giá & Phản hồi":
+    st.markdown("<h1 class='title-indochine'>ĐÁNH GIÁ & PHẢN HỒI</h1>", unsafe_allow_html=True)
+    
+    if not st.session_state.order_completed:
+        st.info("Vui lòng hoàn tất đặt hàng trước khi gửi đánh giá cho quán.")
+    else:
+        st.success("Cảm ơn bạn đã thưởng thức trà tại Trà Quán Hoài Niệm!")
+        st.markdown("### 🌟 Chấm điểm dịch vụ & để lại lời nhắn")
+        
+        rating = st.feedback("stars")
+        feedback_text = st.text_area("Lời nhắn/Đóng góp ý kiến gửi quán:")
+        
+        if st.button("📩 Gửi Đánh Giá"):
+            st.toast("Cảm ơn quý khách đã để lại ý kiến đóng góp quý báu!", icon="💌")
+            st.balloons()
+            
+            # Làm sạch dữ liệu giỏ hàng sau khi hoàn tất
+            st.session_state.cart = []
+            st.session_state.voucher_discount = 0
+            st.session_state.applied_voucher = ""
+            st.session_state.order_completed = False
