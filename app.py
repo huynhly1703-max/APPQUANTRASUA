@@ -56,14 +56,14 @@ MENU = {
         {"name":"Trà Sữa Mợ Hai","price":40000,"image":"TRASUAMOHAI.jpg","description":"Vị trà thanh, sữa dịu, nhẹ nhàng và tinh tế.","message":"Mợ Hai chúc bạn hôm nay gặp toàn điều dễ thương!"},
     ],
     "Matcha": [
-        {"name":"Matcha Ngọc Bích","price":42000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Matcha xanh mịn, thơm dịu, hòa cùng sữa tươi.","message":"Một chút xanh bình yên, mong ngày của bạn dịu dàng hơn."},
-        {"name":"Matcha Sữa Cô Tư","price":45000,"image":"https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=900&q=85","description":"Matcha đậm vị, sữa béo nhẹ, hậu vị thanh.","message":"Cô Tư mời bạn một ly xanh mát, uống là thấy thương!"},
-        {"name":"Matcha Đêm Trăng","price":47000,"image":"https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=900&q=85","description":"Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.","message":"Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."},
+        {"name":"Matcha Ngọc Bích","price":42000,"image":"MATCHANGOCBICH.jpg","description":"Matcha xanh mịn, thơm dịu, hòa cùng sữa tươi.","message":"Một chút xanh bình yên, mong ngày của bạn dịu dàng hơn."},
+        {"name":"Matcha Sữa Cô Tư","price":45000,"image":"MATCHASUACOTU.jpg","description":"Matcha đậm vị, sữa béo nhẹ, hậu vị thanh.","message":"Cô Tư mời bạn một ly xanh mát, uống là thấy thương!"},
+        {"name":"Matcha Đêm Trăng","price":47000,"image":"MATCHADEMTRANG.jpg","description":"Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.","message":"Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."},
     ],
     "Cà phê": [
-        {"name":"Cà Phê Sữa Đá Phố Cũ","price":32000,"image":"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=900&q=85","description":"Cà phê đậm vị, sữa đặc ngọt dịu, đúng chất quán xưa.","message":"Chúc bạn có một buổi chiều chậm rãi bên ly cà phê thân quen!"},
-        {"name":"Bạc Xỉu Gánh Rong","price":35000,"image":"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=900&q=85","description":"Sữa thơm béo quyện chút cà phê, nhẹ nhàng và dễ uống.","message":"Một chút ngọt ngào, một chút tỉnh táo cho ngày thêm vui."},
-        {"name":"Cà Phê Đen Hoài Niệm","price":28000,"image":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
+        {"name":"Cà Phê Phin Sài Gòn Xưa","price":29000,"image":"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=900&q=85","description":"Cà phê đậm vị, sữa đặc ngọt dịu, đúng chất quán xưa.","message":"Chúc bạn có một buổi chiều chậm rãi bên ly cà phê thân quen!"},
+        {"name":"Bạc Xỉu Góc Phố","price":35000,"image":"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=900&q=85","description":"Sữa thơm béo quyện chút cà phê, nhẹ nhàng và dễ uống.","message":"Một chút ngọt ngào, một chút tỉnh táo cho ngày thêm vui."},
+        {"name":"Cà Phê Đêm Sài Thành","price":28000,"image":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
     ],
 }
 TOPPINGS={"Không topping":0,"Trân châu đen":7000,"Trân châu trắng":8000,"Thạch củ năng":8000,"Pudding trứng":10000,"Kem cheese":12000}
