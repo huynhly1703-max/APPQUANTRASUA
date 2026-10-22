@@ -275,11 +275,7 @@ elif page=="Giỏ hàng & thanh toán":
         else:
             st.warning("QR bên dưới chỉ là mã minh họa, KHÔNG phải QR chuyển khoản ngân hàng thật.")
             q1,q2=st.columns([1,1.4])
-            st.image(
-    "images/MAQR.jpg",
-    caption="Quét mã QR để thanh toán",
-    width=230
-)
+            with q1: st.image(make_qr(total()),caption="QR minh họa — chưa thể chuyển khoản",width=230)
             with q2:
                 st.markdown("#### Thông tin thanh toán"); st.write("Đơn vị: Trà Quán Hoài Niệm"); st.write("Số tiền:",money(total())); st.write("Nội dung: TRAQUANHOAINIEM")
                 st.caption("Khi triển khai thật, thay bằng QR ngân hàng hoặc nhà cung cấp thanh toán của quán.")
