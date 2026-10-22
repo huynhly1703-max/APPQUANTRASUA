@@ -128,20 +128,6 @@ with st.sidebar:
     st.write(f"{len(st.session_state.cart)} dòng món")
     st.markdown(f"<div style='background:#355746;border:1px solid #E0B44F;padding:10px;border-radius:8px'>Tạm tính<br><span style='font-size:22px;font-weight:800;color:#E0B44F'>{money(subtotal())}</span></div>",unsafe_allow_html=True)
     if st.button("Mở giỏ hàng →",key="sidebar_cart",use_container_width=True): navigate("Giỏ hàng & thanh toán")
-    with st.expander("🖼️ Thay ảnh món uống"):
-        st.caption("Chọn món rồi tải ảnh từ máy tính. Ảnh sẽ được lưu trong thư mục images cạnh file app này.")
-        all_products = [product for group in MENU.values() for product in group]
-        chosen_name = st.selectbox("Chọn món cần đổi ảnh", [p["name"] for p in all_products], key="upload_image_product")
-        uploaded_image = st.file_uploader("Tải ảnh mới lên", type=["jpg", "jpeg", "png", "webp"], key="upload_drink_image")
-        if uploaded_image is not None and st.button("Lưu ảnh cho món này", key="save_drink_image", use_container_width=True):
-            suffix = Path(uploaded_image.name).suffix.lower()
-            slug = image_slug(chosen_name)
-            for old_image in IMAGE_DIR.glob(f"{slug}.*"):
-                if old_image.is_file(): old_image.unlink()
-            destination = IMAGE_DIR / f"{slug}{suffix}"
-            destination.write_bytes(uploaded_image.getvalue())
-            st.success(f"Đã lưu ảnh cho {chosen_name}!")
-            st.rerun()
     st.markdown("<div style='padding-top:18px;font-size:11px;line-height:1.8;color:#C7BCA5'>HƯƠNG XƯA · VỊ CŨ<br>Chậm một nhịp, thương một đời.</div>",unsafe_allow_html=True)
 
 page=st.session_state.page
