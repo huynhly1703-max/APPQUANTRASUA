@@ -281,7 +281,7 @@ elif page=="Đơn hàng đã xác nhận":
     hero("❖ THANK YOU ❖","Cảm ơn bạn đã ghé quán!","Một ly trà, một niềm vui nho nhỏ.")
     order=st.session_state.order_confirmation
     if order:
-        st.success("Đơn hàng đã được ghi nhận trên ứng dụng demo."); st.caption("Thời gian: "+order["time"]); section("HÓA ĐƠN CỦA BẠN")
+        st.caption("Thời gian: "+order["time"]); section("HÓA ĐƠN CỦA BẠN")
         for item in order["items"]:
             st.write(f"• **{item['name']}** × {item['quantity']} — **{money(item['subtotal'])}**")
             st.caption(f"Topping: {item['topping']} · Độ ngọt: {item['sweetness']} · {item['ice']}")
