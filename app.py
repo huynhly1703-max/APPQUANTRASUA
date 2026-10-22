@@ -41,29 +41,10 @@ p,label,li{color:var(--cream)} hr{border-color:var(--line)!important} [data-test
 .message-box{background:rgba(224,180,79,.10);border-left:3px solid var(--gold);border-radius:0;padding:12px 15px;color:var(--cream);margin:10px 0}.info-strip{background:rgba(224,180,79,.08);border:1px solid var(--line);border-radius:3px;padding:14px 17px;color:var(--cream)}.bill-box{background:rgba(13,25,19,.48);border:1px dashed var(--gold);border-radius:3px;padding:20px}.big-total{color:var(--gold);font-family:'Oswald','Playfair Display',serif;font-weight:700;font-size:29px;letter-spacing:.4px}
 div.stButton>button,div.stFormSubmitButton>button{background:var(--brick);color:var(--cream);border:1px solid var(--gold);border-radius:2px;min-height:43px;font-family:'DM Sans',sans-serif;font-weight:700;letter-spacing:.25px;transition:all .18s ease}div.stButton>button:hover,div.stFormSubmitButton>button:hover{background:var(--gold);color:#1B2C22;border-color:var(--gold);transform:translateY(-1px);box-shadow:0 5px 16px rgba(224,180,79,.15)}
 .stTextInput input,.stTextArea textarea,.stNumberInput input,.stSelectbox [data-baseweb="select"]>div,.stMultiSelect [data-baseweb="select"]>div{background:#20372B!important;color:var(--cream)!important;border-color:var(--line)!important;border-radius:2px!important}.stTextInput input::placeholder,.stTextArea textarea::placeholder{color:#C7BCA5!important}
-[data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"]{background:#20372B!important;color:var(--cream)!important}[data-baseweb="radio"] label,[data-baseweb="checkbox"] label{color:var(--cream)!important}
+[data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"]{background:#F7EEDB!important;color:var(--cream)!important}[data-baseweb="radio"] label,[data-baseweb="checkbox"] label{color:var(--cream)!important}
 [data-testid="stExpander"]{background:rgba(32,55,43,.68);border:1px solid var(--line);border-radius:3px}[data-testid="stExpander"] summary{color:var(--cream)}[data-testid="stAlert"]{border-radius:3px;border:1px solid var(--line)}[data-testid="stImage"] img{border-radius:2px;border:1px solid rgba(224,180,79,.25)}[data-testid="stForm"]{background:rgba(32,55,43,.55);border:1px solid var(--line);border-radius:3px;padding:17px}[data-testid="stMetric"]{background:rgba(53,87,70,.32);border:1px solid var(--line);padding:12px;border-radius:3px}[data-testid="stMetricValue"]{color:var(--gold)}.stRadio [role="radiogroup"]{gap:10px}[data-testid="stMarkdownContainer"] a{color:var(--gold)}
 .footer{text-align:center;color:var(--gold);font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:2.2px;padding:18px 0 6px;line-height:2}
 @media(max-width:700px){.hero{padding:27px 20px}.hero:before{font-size:8px;right:10px}.hero h1{font-size:2.4rem!important}.paper-card{padding:14px}}
-/* Chữ trong ô chọn topping */
-[data-baseweb="select"] div,
-[data-baseweb="select"] span {
-    color: #F7EEDB !important;
-}
-
-/* Nền danh sách topping */
-[data-baseweb="popover"] [role="listbox"],
-[data-baseweb="popover"] [role="option"] {
-    background-color: #20372B !important;
-    color: #F7EEDB !important;
-}
-
-/* Topping khi rê chuột hoặc đang chọn */
-[data-baseweb="popover"] [role="option"]:hover,
-[data-baseweb="popover"] [role="option"][aria-selected="true"] {
-    background-color: #B74735 !important;
-    color: #FFFFFF !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
