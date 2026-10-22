@@ -150,7 +150,6 @@ if page=="Trang chủ":
 
 elif page=="Một góc tham quan":
     hero("❖ SAIGON MEMORY LANE ❖","Một góc Sài Gòn xưa","Dạo qua những mái hiên cũ, con phố thân quen và nhịp sống chậm của Sài Gòn trong ký ức.")
-    st.markdown('<div class="info-strip">✦ Góc tham quan là không gian hình ảnh gợi nhớ Sài Gòn xưa.)
     st.write("")
     c1,c2=st.columns(2,gap="large")
     with c1:
