@@ -290,7 +290,7 @@ elif page=="Đơn hàng đã xác nhận":
         st.write(f"Tạm tính: {money(order['subtotal'])}"); st.write(f"Giảm giá: −{money(order['discount'])}")
         st.markdown(f'<div class="big-total">TỔNG THANH TOÁN: {money(order["total"])}</div>',unsafe_allow_html=True); st.write(f"Phương thức: **{order['payment']}**")
         if order["payment"]=="Quét mã QR":
-            st.warning("Bản demo chưa xác minh giao dịch ngân hàng. Chỉ xác nhận thanh toán sau khi kiểm tra giao dịch thực tế.")
+            st.warning("Quý khách vui lòng gửi hình ảnh giao dịch thành công để quán tiện kiểm tra và chuẩn bị ly nước đậm vị gửi đến bạn nhanh nhất nhé!")
         else:
             st.info("Vui lòng thanh toán cho nhân viên.")
 
