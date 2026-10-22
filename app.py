@@ -292,7 +292,7 @@ elif page=="Đơn hàng đã xác nhận":
         if order["payment"]=="Quét mã QR":
             st.warning("Bản demo chưa xác minh giao dịch ngân hàng. Chỉ xác nhận thanh toán sau khi kiểm tra giao dịch thực tế.")
         else:
-            st.info("Đơn hàng tiền mặt đã được ghi nhận trên giao diện demo. Vui lòng thanh toán cho nhân viên.")
+            st.info("Vui lòng thanh toán cho nhân viên.")
 
         # Feedback form shown on the order confirmation page.
         st.divider()
