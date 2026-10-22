@@ -156,7 +156,7 @@ if page=="Trang chủ":
         st.markdown('<div class="message-box">“Có những điều xưa cũ, chỉ cần nhấp một ngụm là thấy lòng dịu lại.”</div>',unsafe_allow_html=True)
         if st.button("📜 Khám phá thực đơn",key="home_explore",use_container_width=True): navigate("Khám phá thực đơn")
         if st.button("📷 Dạo một vòng Sài Gòn xưa",key="home_sightseeing",use_container_width=True): navigate("Một góc tham quan")
-    with right: show_image("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85","Góc phố Sài Gòn xưa — hình minh họa không gian đô thị hoài niệm")
+    with right: show_image("GOCPHOSGXUA.jpg","Góc phố Sài Gòn xưa")
     section("DẤU ẤN CỦA QUÁN","Ba điều nhỏ tạo nên trải nghiệm riêng.")
     a,b,c=st.columns(3)
     for col,emoji,title,desc in [(a,"🍃","Hương vị thân quen","Trà sữa, matcha và cà phê mang tên gọi gợi nhớ những câu chuyện xưa."),(b,"🎁","Quà tặng bất ngờ","Thử vận may với voucher hoặc một món quà nhỏ từ quán."),(c,"🧾","Đặt món dễ dàng","Tùy chỉnh thức uống và xem hóa đơn ngay trên ứng dụng.")]:
