@@ -363,8 +363,6 @@ elif page=="Vòng quay may mắn":
             else: st.success("Chúc bạn luôn bình yên và tìm thấy niềm vui trong những điều giản dị.")
     elif st.button("🎡 QUAY NGAY",use_container_width=True):
         st.session_state.spin_result=random.choice(prizes); st.session_state.used_spin=True; st.rerun()
-    st.caption("Vòng quay là tính năng demo trong phiên ứng dụng. Khi kinh doanh thật, hãy thiết lập thể lệ và điều kiện đổi thưởng rõ ràng.")
-
 elif page=="Về chúng tôi":
     hero("❖ OUR STORY ❖","Câu chuyện của Trà Quán","Giữ chút hương Sài Gòn xưa giữa nhịp sống hiện đại.")
     left,right=st.columns([1,1],gap="large")
