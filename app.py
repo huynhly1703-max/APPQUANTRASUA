@@ -63,7 +63,7 @@ MENU = {
     "Cà phê": [
         {"name":"Cà Phê Phin Sài Gòn Xưa","price":29000,"image":"CAPHEPHINSAIGONXUA.jpg","description":"Cà phê đậm vị, sữa đặc ngọt dịu, đúng chất quán xưa.","message":"Chúc bạn có một buổi chiều chậm rãi bên ly cà phê thân quen!"},
         {"name":"Bạc Xỉu Góc Phố","price":35000,"image":"BACXIUGOCPHO.jpg","description":"Sữa thơm béo quyện chút cà phê, nhẹ nhàng và dễ uống.","message":"Một chút ngọt ngào, một chút tỉnh táo cho ngày thêm vui."},
-        {"name":"Cà Phê Đêm Sài Thành","price":28000,"image":"CAPHEDEMSAITHANH","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
+        {"name":"Cà Phê Đêm Sài Thành","price":28000,"image":"CAPHEDEMSAITHANH.jpg","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
     ],
 }
 TOPPINGS={"Không topping":0,"Trân châu đen":7000,"Trân châu trắng":8000,"Thạch củ năng":8000,"Pudding trứng":10000,"Kem cheese":12000}
