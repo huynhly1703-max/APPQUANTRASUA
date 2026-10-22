@@ -256,7 +256,7 @@ elif page=="Giỏ hàng & thanh toán":
         st.markdown(f'<div class="big-total">TỔNG CỘNG: {money(total())}</div>',unsafe_allow_html=True); st.markdown("</div>",unsafe_allow_html=True)
         st.divider(); section("PHƯƠNG THỨC THANH TOÁN")
         payment=st.radio("Bạn muốn thanh toán bằng cách nào?",["Tiền mặt","Quét mã QR"],horizontal=True,key="payment_choice")
-        if payment=="Tiền mặt": st.markdown('<div class="info-strip">💵 Bạn chọn thanh toán tiền mặt. Vui lòng thanh toán cho nhân viên khi nhận món.</div>',unsafe_allow_html=True)
+        if payment=="Tiền mặt": st.markdown('<div class="info-strip">💵 Bạn chọn thanh toán tiền mặt. Vui lòng thanh toán cho nhân viên nhé.</div>',unsafe_allow_html=True)
         else:
             q1,q2=st.columns([1,1.4])
             with q1:
