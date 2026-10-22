@@ -178,7 +178,7 @@ elif page=="Một góc tham quan":
     st.divider()
     left,right=st.columns([1,1],gap="large")
     with left:
-        show_image("CAPHESUA.jpg","Không gian quán cà phê hoài niệm")
+        show_image("CAPHEXUA.jpg","Không gian quán cà phê hoài niệm")
     with right:
         st.markdown("### 03 · Ngồi lại bên ly nước")
         st.write("Một chiếc bàn nhỏ, một ly cà phê sữa đá và vài câu chuyện không vội. Đây là cảm hứng cho không gian Trà Quán Hoài Niệm — nơi hương vị hôm nay gặp ký ức ngày xưa.")
