@@ -273,7 +273,6 @@ elif page=="Giỏ hàng & thanh toán":
         payment=st.radio("Bạn muốn thanh toán bằng cách nào?",["Tiền mặt","Quét mã QR"],horizontal=True,key="payment_choice")
         if payment=="Tiền mặt": st.markdown('<div class="info-strip">💵 Bạn chọn thanh toán tiền mặt. Vui lòng thanh toán cho nhân viên khi nhận món.</div>',unsafe_allow_html=True)
         else:
-            st.warning("QR bên dưới chỉ là mã minh họa, KHÔNG phải QR chuyển khoản ngân hàng thật.")
             q1,q2=st.columns([1,1.4])
             with q1:
                 st.image(
@@ -283,7 +282,6 @@ elif page=="Giỏ hàng & thanh toán":
                 )
             with q2:
                 st.markdown("#### Thông tin thanh toán"); st.write("Đơn vị: Trà Quán Hoài Niệm"); st.write("Số tiền:",money(total())); st.write("Nội dung: TRAQUANHOAINIEM")
-                st.caption("Khi triển khai thật, thay bằng QR ngân hàng hoặc nhà cung cấp thanh toán của quán.")
         st.divider(); c1,c2,c3=st.columns(3)
         with c1:
             if st.button("＋ Chọn thêm món",use_container_width=True): navigate("Khám phá thực đơn")
@@ -394,7 +392,7 @@ elif page=="Về chúng tôi":
     for col,title,desc in [(a,"Chân thành","Trải nghiệm thân thiện và gần gũi."),(b,"Chất riêng","Thức uống hiện đại trong cảm hứng xưa."),(c,"Bình yên","Mỗi lần ghé quán là một lần sống chậm.")]:
         with col: st.markdown(f'<div class="paper-card"><h3>{title}</h3><p>{desc}</p></div>',unsafe_allow_html=True)
     st.divider(); section("THÔNG TIN LIÊN HỆ")
-    st.write("**Tên quán:** Trà Quán Hoài Niệm"); st.write("**Phong cách:** Trà sữa, matcha và cà phê hoài cổ"); st.write("**Địa chỉ:** Bổ sung địa chỉ thật của quán tại đây"); st.write("**Fanpage:** Bổ sung đường dẫn fanpage tại đây")
+    st.write("**Tên quán:** Trà Quán Hoài Niệm"); st.write("**Phong cách:** Trà sữa, matcha và cà phê hoài cổ"); st.write("**Địa chỉ:** 717K BẾN BÌNH ĐÔNG,PHƯỜNG 13,QUẬN 8"); st.write("**Fanpage:** https://www.facebook.com/khanh.ly.476168?locale=vi_VN")
     if st.button("📜 Xem thực đơn ngay",use_container_width=True): navigate("Khám phá thực đơn")
 
 st.markdown("---")
