@@ -45,6 +45,25 @@ div.stButton>button,div.stFormSubmitButton>button{background:var(--brick);color:
 [data-testid="stExpander"]{background:rgba(32,55,43,.68);border:1px solid var(--line);border-radius:3px}[data-testid="stExpander"] summary{color:var(--cream)}[data-testid="stAlert"]{border-radius:3px;border:1px solid var(--line)}[data-testid="stImage"] img{border-radius:2px;border:1px solid rgba(224,180,79,.25)}[data-testid="stForm"]{background:rgba(32,55,43,.55);border:1px solid var(--line);border-radius:3px;padding:17px}[data-testid="stMetric"]{background:rgba(53,87,70,.32);border:1px solid var(--line);padding:12px;border-radius:3px}[data-testid="stMetricValue"]{color:var(--gold)}.stRadio [role="radiogroup"]{gap:10px}[data-testid="stMarkdownContainer"] a{color:var(--gold)}
 .footer{text-align:center;color:var(--gold);font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:2.2px;padding:18px 0 6px;line-height:2}
 @media(max-width:700px){.hero{padding:27px 20px}.hero:before{font-size:8px;right:10px}.hero h1{font-size:2.4rem!important}.paper-card{padding:14px}}
+/* Chữ trong ô chọn topping */
+[data-baseweb="select"] div,
+[data-baseweb="select"] span {
+    color: #F7EEDB !important;
+}
+
+/* Nền danh sách topping */
+[data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] [role="option"] {
+    background-color: #20372B !important;
+    color: #F7EEDB !important;
+}
+
+/* Topping khi rê chuột hoặc đang chọn */
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+    background-color: #B74735 !important;
+    color: #FFFFFF !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
