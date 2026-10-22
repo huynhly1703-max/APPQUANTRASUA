@@ -168,17 +168,17 @@ elif page=="Một góc tham quan":
     st.write("")
     c1,c2=st.columns(2,gap="large")
     with c1:
-        show_image("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85","Góc phố đô thị — gợi nhắc nhịp sống Sài Gòn")
+        show_image("GOCPHODOTHI.jpg","Góc phố đô thị — gợi nhắc nhịp sống Sài Gòn")
         st.markdown("### 01 · Những con đường thân quen")
-        st.write("Một góc phố để nhớ về hàng cây, mái hiên và những buổi chiều chậm rãi. Hình ảnh mang tính minh họa; bạn có thể thay bằng ảnh đường phố Sài Gòn xưa phù hợp hơn.")
+        st.write("Một góc phố để nhớ về hàng cây, mái hiên và những buổi chiều chậm rãi.")
     with c2:
-        show_image("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&q=85","Nhịp sống thành phố và những dãy nhà cũ")
+        show_image("NHIPSONGDOTHI.jpg","Nhịp sống thành phố và những dãy nhà cũ")
         st.markdown("### 02 · Dấu xưa trong phố")
         st.write("Từ bảng hiệu, cửa gỗ đến những quán nhỏ ven đường, các chi tiết bình dị làm nên nét duyên riêng của Sài Gòn qua nhiều thế hệ.")
     st.divider()
     left,right=st.columns([1,1],gap="large")
     with left:
-        show_image("https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=85","Không gian quán cà phê hoài niệm")
+        show_image("CAPHESUA.jpg","Không gian quán cà phê hoài niệm")
     with right:
         st.markdown("### 03 · Ngồi lại bên ly nước")
         st.write("Một chiếc bàn nhỏ, một ly cà phê sữa đá và vài câu chuyện không vội. Đây là cảm hứng cho không gian Trà Quán Hoài Niệm — nơi hương vị hôm nay gặp ký ức ngày xưa.")
