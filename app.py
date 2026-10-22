@@ -61,9 +61,9 @@ MENU = {
         {"name":"Matcha Đêm Trăng","price":47000,"image":"MATCHADEMTRANG.jpg","description":"Matcha sữa mềm mượt, cảm hứng từ đêm trăng tĩnh lặng.","message":"Chúc tâm hồn bạn nhẹ như ánh trăng đêm nay."},
     ],
     "Cà phê": [
-        {"name":"Cà Phê Phin Sài Gòn Xưa","price":29000,"image":"https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=900&q=85","description":"Cà phê đậm vị, sữa đặc ngọt dịu, đúng chất quán xưa.","message":"Chúc bạn có một buổi chiều chậm rãi bên ly cà phê thân quen!"},
-        {"name":"Bạc Xỉu Góc Phố","price":35000,"image":"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=900&q=85","description":"Sữa thơm béo quyện chút cà phê, nhẹ nhàng và dễ uống.","message":"Một chút ngọt ngào, một chút tỉnh táo cho ngày thêm vui."},
-        {"name":"Cà Phê Đêm Sài Thành","price":28000,"image":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=85","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
+        {"name":"Cà Phê Phin Sài Gòn Xưa","price":29000,"image":"CAPHEPHINSAIGONXUA.jpg","description":"Cà phê đậm vị, sữa đặc ngọt dịu, đúng chất quán xưa.","message":"Chúc bạn có một buổi chiều chậm rãi bên ly cà phê thân quen!"},
+        {"name":"Bạc Xỉu Góc Phố","price":35000,"image":"BACXIUGOCPHO.jpg","description":"Sữa thơm béo quyện chút cà phê, nhẹ nhàng và dễ uống.","message":"Một chút ngọt ngào, một chút tỉnh táo cho ngày thêm vui."},
+        {"name":"Cà Phê Đêm Sài Thành","price":28000,"image":"CAPHEDEMSAITHANH","description":"Cà phê đen thơm sâu, hậu vị đậm dành cho người yêu vị nguyên bản.","message":"Mong bạn tìm thấy khoảng bình yên trong từng ngụm cà phê."},
     ],
 }
 TOPPINGS={"Không topping":0,"Trân châu đen":7000,"Trân châu trắng":8000,"Thạch củ năng":8000,"Pudding trứng":10000,"Kem cheese":12000}
